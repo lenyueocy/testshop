@@ -1,0 +1,23 @@
+<view class="first">
+  <view class="broker center">
+      <image class="icon" src="../../image/4.png"></image>
+     <view>累积佣金</view>
+     <view><text style="color:red">{{total}}</text>元</view>
+  </view>
+  <!-- <view class="broker" bindtap="targetDetail" >
+      <image class="icon" src="../../image/5.png"></image>
+     <view>收入明细</view>
+     
+  </view> -->
+</view>
+<view class="second">
+  <view class="broker">
+    <view style="color:red"><text style="font-size:40rpx;">{{withdraw}}</text>元</view>
+    <view>已提现佣金</view>
+  </view>
+  <view class="broker">
+    <view style="color:red"><text style="font-size:40rpx;">{{price}}</text>元</view>
+    <view>可提现佣金</view>
+  </view>
+</view>
+<view class="widthdraw" bindtap="cancelOrder">佣金提现</view>

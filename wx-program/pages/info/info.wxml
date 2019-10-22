@@ -1,0 +1,71 @@
+<!-- pages/info/info.wxml -->
+<view class='top'>
+    <view class='top1'>
+        <view class='txTitle'>
+            <image src='/image/commission.png'></image>本月佣金
+        </view>
+        <view class='price'>￥{{countInfo[1].incomeFee}}</view>
+    </view>
+    <view class='ui-cell top2'>
+        <view>
+            <view class='txTitle'>
+                <image src='/image/commission.png'></image>上月佣金
+            </view>
+            <view class='price'>￥{{countInfo[2].incomeFee}}</view>
+        </view>
+        <view>
+            <view class='txTitle'>
+                <image src='/image/commission.png'></image>累计佣金
+            </view>
+            <view class='price'>￥{{countInfo[3].incomeFee}}</view>
+        </view>
+    </view>
+</view>
+<view class='top'>
+    <view class='title'>销售统计</view>
+    <view class='tab'>
+        <text class='{{current == 1 ? "active" : ""}}' data-inc="1" bindtap="changeTab">本月</text>
+        <text class='{{current == 2 ? "active" : ""}}' data-inc="2" bindtap="changeTab">上月</text>
+        <text class='{{current == 3 ? "active" : ""}}' data-inc="3" bindtap="changeTab">累计</text>
+    </view>
+    <view class='timer'>{{countInfo[current].start}} 至 {{countInfo[current].end}}</view>
+    <view class='ui-cell box'>
+        <view>
+            <view>{{countInfo[current].orderNum}}</view>
+            <view>订单数</view>
+        </view>
+        <view>
+            <view>{{countInfo[current].goodsTotal}}</view>
+            <view>商品数</view>
+        </view>
+        <view>
+            <view>{{countInfo[current].saleFee}}</view>
+            <view>销售额</view>
+        </view>
+        <view>
+            <view class='color-r'>{{countInfo[current].incomeFee}}</view>
+            <view>佣金额</view>
+        </view>
+    </view>
+</view>
+<view class='top' bindtap="clipboard">
+    <view class='copy'>复制本期文本接龙</view>
+</view>
+<view class='top'>
+    <view class='title'>最新订单</view>
+    <view class='list'>
+        <block wx:for="{{newOrder}}" wx:for-item="order" wx:key="key">
+            <view class='item'>
+                <view>{{order.order.name}}</view>
+                <block wx:for="{{order.guds}}" wx:for-item="goods" wx:key="key">
+                    <view class='ui-nowrap'>{{goods.title}}</view>
+                </block>
+                <view>订单号：{{order.order.orderno}}</view>
+                <view class='ui-cell bottom'>
+                    <view class='ui-primary color-r'>{{statusTitle[order.order.status]}}</view>
+                    <view>总金额：<text class='color-r'>￥{{order.order.orderfee}}</text></view>
+                </view>
+            </view>
+        </block>
+    </view>
+</view>

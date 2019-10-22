@@ -1,0 +1,354 @@
+/* pages/class/index.wxss */
+page{
+  padding-top:111rpx;
+}
+.search-box {
+    background-color: #fff;
+    color: #333;
+    padding: 5rpx 20rpx;
+    box-sizing: border-box;
+    position: relative;
+    /* margin-bottom: 0; */
+    font-size: 22rpx;
+    position: fixed;
+    top:0rpx;
+    left:0;
+    z-index: 999;
+    width: 100%;
+}
+.search-box input{
+  background-color: #efefef;
+  margin: 20rpx 25rpx;
+  border-radius: 8rpx;
+  color: #333;
+  padding: 0 20rpx;
+  margin-right: 80rpx;
+  width: 80%;
+}
+
+.searchImg{
+  width:60rpx;
+  height: 60rpx;
+  position: absolute;
+  right:23rpx;
+  top:31rpx;
+}
+
+.list{
+  padding: 0;
+  background-color: #f7f7f7;
+  width: 100vw;
+  overflow: hidden;
+}
+.list-lt{
+  background-color: #fff;
+  height: 100vh;
+  position: fixed;
+  left: 0; 
+  padding-left: 10rpx;
+  box-sizing: border-box;
+  overflow-y: auto;
+  /* margin-right: 5rpx; */
+  border-right: 5rpx solid #efefef;
+}
+.list-lt view{
+  width: 200rpx;
+  line-height: 100rpx;
+  color: #909090;
+  font-size: 28rpx;
+  font-weight: bold;
+  text-align: center;
+  background-color: #fff;
+  border-bottom: 2rpx solid #efefef;
+}
+.list-lt view.active{
+  background-color: #009a8c;
+  color: #fff;
+}
+.outBox1{
+  position: absolute;
+  top: 12rpx;
+  left: 18rpx;
+  width:506rpx;
+  height: 286rpx;
+}
+.outBox{
+  position: absolute;
+  top: 10rpx;
+  left: 17rpx;
+  width:510rpx;
+  height: 290rpx;
+}
+.info{
+  margin-top: -45rpx;
+  background-color: #fff;
+
+}
+.product{
+  background-color: #fff;
+  margin-left: 5rpx;
+}
+.proIntroduce{
+  padding:20rpx 0 0;
+  overflow: hidden;
+}
+
+.product-img{
+  width: 800rpx;
+  height: 290rpx;
+  margin-right: 30rpx;
+}
+.product-name{
+  font-size: 30rpx;
+}
+.product-xh{
+  font-size: 22rpx;
+  color: #909090;
+  margin-top: 20rpx;
+  margin-bottom: 30rpx;
+}
+.product-price{
+  font-size: 20rpx;
+  color: #e62c35;
+}
+.product-price text{
+  font-size: 30rpx;
+}
+.product{
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.proIntroduce{
+  padding:10rpx 0 0;
+  overflow: hidden;
+}
+.proActivity{
+  padding:0rpx 10rpx;
+  border-radius:8rpx;
+  background-color:#009a8c;
+  float: left;
+  color: #fff;
+  margin-right: 20rpx
+
+}
+.list-rt{
+  margin-left: 210rpx;
+}
+.list-rt> .ui-cell{
+  display:block;
+}
+.product-name{
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+  font-weight: bold;
+  margin-top: 10rpx;
+  width: 502rpx;
+  /* overflow: hidden; */
+  display:block;
+  /* text-overflow:ellipsis;
+  white-space:nowrap; */
+}
+.info {
+    margin-bottom:20rpx;
+}
+
+.info>.ui-cell {
+    border-bottom: .5rpx dashed #d9d9d9;
+    margin-left:5rpx;
+    position: relative;
+    overflow: hidden;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flex;
+    display: -ms-flexbox; 
+    box-sizing: border-box;
+    padding:15rpx 20rpx;
+
+}
+
+.price>text:first-of-type {
+    font-size: 20rpx;
+    color: #999999;
+}
+.price-box{
+  overflow: hidden;
+  display: block;
+}
+
+.new-price,.old-price{
+  float: left;
+  overflow: hidden;
+  margin-right: 10rpx;
+}
+.old-price{
+  margin-top:10rpx;
+}
+
+.old-price .color-9 {
+    font-size: 20rpx;
+    color: #999999;
+    vertical-align: bottom;
+    text-decoration: line-through;
+}
+
+.new-price>text:last-of-type {
+    font-size: 42rpx;
+    font-weight: bold;
+}
+
+.item-num {
+    /* margin-left: 30rpx; */
+    line-height: 1.8;
+    display: block;
+    float: left;
+}
+
+
+.item-num view,
+.item-num text {
+    font-size: 22rpx;
+    color: #999999;
+    margin: 10rpx 0;
+}
+
+.item-num text {
+    background-color: #E3E7FF;
+    color: #6553E7;
+}
+.joinCar{
+  float: right;
+  margin-top:49rpx;
+  /* position: relative; */
+  margin-left: 120rpx;
+  position: absolute;
+  left: 235rpx;
+  bottom: 10rpx;
+}
+
+.item-btn {
+    padding: 10rpx 0px;
+    width: 175rpx;
+    text-align: center;
+    border-radius: 20px;
+    font-size: 28rpx;
+}
+
+.getcard {
+    /* 标准的语法 */
+    border: 1px solid #009a8c;
+    color: #009a8c;
+    /* position: absolute;
+    overflow: hidden; */
+    /* right: 25rpx; */
+    border-radius: 5rpx!important;
+    /*z-index: 98;*/
+    margin-top: -10rpx;
+    margin-bottom: 15rpx;
+    margin-left: 65 rpx;
+    right: 0;
+}
+
+.sellout {
+    margin-top: -10rpx;
+    margin-bottom: 15rpx;
+    background-color: red;
+    margin-left: 65 rpx;
+    color: #FFFFFF;
+    border-radius: 5rpx!important;
+    border: 1px solid red;
+}
+.user{
+  /* height: 60rpx; */
+  line-height: 45rpx;
+}
+
+.userAvater{
+  display: inline-block;
+  width:35rpx;
+  height: 35rpx;
+  border-radius: 50%;
+  margin-right: 10rpx;
+  vertical-align: middle;
+}
+.user .ui-cell {
+    padding: 0;
+    font-size: 18rpx;
+    color: #999999;
+}
+
+
+
+.user-name {
+    font-size: 18rpx;
+    color: #999999;
+    width: 65rpx;
+}
+
+.model {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.model-content {
+    width: 60%;
+    margin: 40% auto;
+    background-color: #fff;
+    border: solid 1px #999999;
+    border-radius: 5px;
+}
+
+.model-text {
+    line-height: 20px;
+    padding: 10px;
+}
+
+.model-btn button {
+    font-size: 14px;
+    background-color: #868FD4;
+    color: #fff;
+    border-radius: 0;
+    border: none;
+}
+.index-addr{
+  width: 26rpx;
+  height: 26rpx;
+  position: relative;
+  top: 2rpx;
+}
+.check{
+  padding: 20rpx 0;
+  background-color: #A5ABDE;
+  text-align: center;
+}
+.checkList .checkList-1{
+  font-size: 22rpx;
+  margin-bottom: 20rpx;
+}
+.checkList .checkList-2{
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #6553E7;
+}
+.checkList .checkList-3{
+  font-size: 20rpx;
+  background-color: #868FD4;
+  color: #FFFFFF;
+  padding: 10rpx 25rpx;
+  border-radius: 40rpx;
+}
+.checkicon{
+  width:36rpx;
+  height:36rpx;
+}
+.line{
+  position: relative;
+  top: -10rpx;
+  color: #868FD4;
+  font-weight: bold;
+}

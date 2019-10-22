@@ -1,0 +1,48 @@
+/* pages/brokerage/brokerage.wxss */
+.first,
+.second{
+  width: 100%;
+  height: 400rpx;
+  padding: 30px 0;
+}
+.first{
+  border-bottom: 1rpx solid #ccc;
+}
+.broker{
+  width: 50%;
+  float: left;
+  overflow: hidden;
+  height: 300rpx;
+  text-align: center;
+  font-size: 60rpx;
+}
+.center{
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.broker view{
+   font-size: 35rpx;
+}
+.broker image{
+  width: 160rpx;
+  height: 160rpx;
+}
+.second{
+  width: 100%;
+  height: 250rpx;
+  padding-top: 80rpx;
+}
+.widthdraw{
+  width: 80%;
+  height:80rpx;
+  border-radius: 10rpx;
+  background-color: #069185;
+  color: #fff;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  line-height: 80rpx;
+  text-align: center;
+}

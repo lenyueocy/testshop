@@ -1,0 +1,82 @@
+
+page{
+  background-color:#F8FAFF;
+}
+.form-item {
+    display: flex;
+    margin-bottom: 10rpx;
+    padding-bottom: 7rpx;
+    background: #fff;
+    padding: 5px;
+    border-bottom: solid 1px #ccc;
+}
+.body{
+  padding:0 30rpx;
+  background-color: #fff;
+}
+.headpic {
+    margin-top: 20px;
+}
+
+.label {
+    width: 80px;
+    /* border-right: solid 1px #ccc; */
+    /* height: 100%;
+    line-height: 100%; */
+    padding-top: 5rpx;
+    padding-bottom: 15rpx;
+}
+
+.input {
+    padding-left: 10px;
+    flex: 1;
+    text-align: right;
+}
+
+.address{
+  padding: 0 5rpx;
+  margin-top: 7rpx;
+  /* background-color: pink; */
+  text-align: left;
+  margin-right: -12rpx;
+}
+
+.input image {
+    height: 80px;
+    width: 80px;
+    /* border-radius: 50%; */
+}
+
+.sub-btn {
+    position: fixed;
+    /* bottom: 10px; */
+    /* background: linear-gradient(to right, #BCA1FF, #7D87FF); */
+    background-color: #0D9D8D;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 12px;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.user_hic{
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 30rpx;
+  margin-left: 10rpx;
+}
+.item{
+  border-bottom: .5rpx solid #D8D8D8;
+}
+.icon-img{
+  width: 32rpx;
+  height: 32rpx;
+}
+.toggle{
+  margin-top: 50rpx;
+}
+.sub-btn{
+ font-size: 28rpx;
+}

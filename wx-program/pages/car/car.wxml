@@ -1,0 +1,55 @@
+<view class="top">
+  <text>购物数量({{carnum}})</text>
+    <!-- <view class='btn' bindtap="manage" hidden="{{ifDelecte}}">管理</view> -->
+    <view class='btn' bindtap="delete" hidden="{{!ifDelecte}}">删除</view>
+</view>
+
+<!-- 列表开始 -->
+ <block wx:if="{{cartList==''}}">
+    <view class='empty_wrap'>
+      <image class='img_no' src='/image/nocar.png'></image>
+    </view>
+    <!-- <view class='dat_no'>购物车空空如也，赶紧去逛逛吧~</view> -->
+  </block>    
+<view class='list'>
+    <!-- 循环此处列表 -->
+    <block wx:for="{{cartList}}" wx:for-item="cart" wx:for-index="inc" wx:key="key">
+        <view class='item ui-cell'>
+            <view class='select' bindtap="changeSelect" data-inc="{{inc}}">
+                <image class='img_100' src="/image/{{cart.select == 2 ? 'select' : 'selected'}}.png"></image>
+            </view>
+            <view class='item-img'>
+                <image class='img_100' src='{{cart.goods.imageUrl}}?imageView2/2/w/186/h/124'></image>
+            </view>
+            <view class='ui-primary'>
+                <view class="goodsTitle">
+                  <view class='ui-nowrap-2'>{{cart.goods.title}}</view>
+                </view>
+                <view class='ui-cell info-box'>
+                    <view class='price'>￥{{cart.goods.price}}</view>
+                    <view class='num-box'>
+                        <text bindtap="changeNum" data-type="1" data-inc="{{inc}}">-</text>
+                        <text>{{cart.info.num}}</text>
+                        <text bindtap="changeNum" data-type="2" data-inc="{{inc}}">+</text>
+                    </view>
+                    <view class='del' bindtap="delCart" data-inc="{{inc}}" hidden="{{!ifDelecte}}">
+                        <image class='img_100' src='/image/del.png'></image>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </block>
+</view>
+<!-- 底部固定栏 -->
+<view class='bottom-box'>
+    <view class='ui-cell'>
+        <view class='bottom-select' bindtap="changeSelectAll">
+            <image class='img_100' src='/image/{{isSelectAll == 1 && cartList.length>0 ? "selected" : "select" }}.png'></image>
+            <text>全选</text>
+        </view>
+        <view class='ui-primary'>
+          ￥ <text class='allPrice'>{{totalPrice}}</text>
+        </view>
+        <view class='toconfirm' catchtap='toConfirm'>去结算</view>
+    </view>
+</view>

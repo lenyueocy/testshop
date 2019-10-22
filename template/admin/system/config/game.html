@@ -1,0 +1,104 @@
+<fieldset class="layui-elem-field" style="border-color:#a0a0a0;">
+  <legend>单人跑得快新手场</legend>
+  <div class="layui-field-box">
+    	{:$html->input([
+			'label'=>'门票',
+			'lay-verify'=>'required|number',
+			'name'=>'game[10][ticket]',
+			'value'=>isset($game['10']['ticket']) ? $game['10']['ticket'] : 0
+		])}
+		{:$html->input([
+			'label'=>'最低要求',
+			'lay-verify'=>'required|number',
+			'name'=>'game[10][min]',
+			'value'=>isset($game['10']['min']) ? $game['10']['min'] : 0
+		])}
+		{:$html->input([
+			'label'=>'输赢封顶',
+			'lay-verify'=>'required|number',
+			'name'=>'game[10][max]',
+			'value'=>isset($game['10']['max']) ? $game['10']['max'] : 0
+		])}
+		<input type="hidden" name="game[10][id]" value="10">
+		<input type="hidden" name="game[10][name]" value="单人跑得快新手场">
+  </div>
+</fieldset>
+<fieldset class="layui-elem-field" style="border-color:#a0a0a0;">
+  <legend>经典玩法新手场</legend>
+  <div class="layui-field-box">
+    	{:$html->input([
+			'label'=>'门票',
+			'lay-verify'=>'required|number',
+			'name'=>'game[20][ticket]',
+			'value'=>isset($game['20']['ticket']) ? $game['20']['ticket'] : 0
+		])}
+		{:$html->input([
+			'label'=>'最低要求',
+			'lay-verify'=>'required|number',
+			'name'=>'game[20][min]',
+			'value'=>isset($game['20']['min']) ? $game['20']['min'] : 0
+		])}
+		{:$html->input([
+			'label'=>'输赢封顶',
+			'lay-verify'=>'required|number',
+			'name'=>'game[20][max]',
+			'value'=>isset($game['20']['max']) ? $game['20']['max'] : 0
+		])}
+		<input type="hidden" name="game[20][id]" value="20">
+		<input type="hidden" name="game[20][name]" value="经典玩法新手场">
+  </div>
+</fieldset>
+
+<fieldset class="layui-elem-field" style="border-color:#a0a0a0;">
+  <legend>升级玩法新手场</legend>
+  <div class="layui-field-box">
+    	{:$html->input([
+			'label'=>'门票',
+			'lay-verify'=>'required|number',
+			'name'=>'game[30][ticket]',
+			'value'=>isset($game['30']['ticket']) ? $game['30']['ticket'] : 0
+		])}
+		{:$html->input([
+			'label'=>'最低要求',
+			'lay-verify'=>'required|number',
+			'name'=>'game[30][min]',
+			'value'=>isset($game['30']['min']) ? $game['30']['min'] : 0
+		])}
+		{:$html->input([
+			'label'=>'输赢封顶',
+			'lay-verify'=>'required|number',
+			'name'=>'game[30][max]',
+			'value'=>isset($game['30']['max']) ? $game['30']['max'] : 0
+		])}
+		<input type="hidden" name="game[30][id]" value="30">
+		<input type="hidden" name="game[30][name]" value="升级玩法新手场">
+  </div>
+</fieldset>
+
+<fieldset class="layui-elem-field" style="border-color:#a0a0a0;">
+  <legend>计分玩法新手场</legend>
+  <div class="layui-field-box">
+    	{:$html->input([
+			'label'=>'门票',
+			'lay-verify'=>'required|number',
+			'name'=>'game[40][ticket]',
+			'value'=>isset($game['40']['ticket']) ? $game['40']['ticket'] : 0
+		])}
+		{:$html->input([
+			'label'=>'最低要求',
+			'lay-verify'=>'required|number',
+			'name'=>'game[40][min]',
+			'value'=>isset($game['40']['min']) ? $game['40']['min'] : 0
+		])}
+		{:$html->input([
+			'label'=>'输赢封顶',
+			'lay-verify'=>'required|number',
+			'name'=>'game[40][max]',
+			'value'=>isset($game['40']['max']) ? $game['40']['max'] : 0
+		])}
+		<input type="hidden" name="game[40][id]" value="40">
+		<input type="hidden" name="game[40][name]" value="计分玩法新手场">
+  </div>
+</fieldset>
+
+<input type="hidden" name="sign" value="game">

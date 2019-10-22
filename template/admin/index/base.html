@@ -1,0 +1,59 @@
+{extend name="/layer" /} {block name="main"}
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header" style="height:45px;">
+            <a id="go-main" data-url="{:url('index/main')}" class="layui-logo" href="javascript:void(0);" style="line-height:45px;white-space: nowrap;">微客管理后台</a>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item" style="line-height:45px;">
+                    <a href="javascript:;">{:session('admin-nickname')}</a>
+                    <dl class="layui-nav-child" style="top:45px;">
+                        <dd>
+                            <a href="javascript:void(0);" class="win-open" data-url="{:url('index/edit')}">基本资料</a>
+                        </dd>
+                        <dd>
+                            <a href="{:url('index/logout')}">退出登录</a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+        <div class="layui-side" style="background-color: #FFFFFF;border-right: solid 1px #ccc;width: 150px;top:45px;">
+            <div class="layui-side-scroll" style="width:100%;">
+                <ul class="m-left-menu" style="display:none;">
+                    <li class="m-top-title">模块管理</li>
+                    <li class="m-child-title" data-url="{:url('module/module_list')}">模块管理</li>
+                    <li class="m-child-title" data-url="{:url('module/area_list')}">片区管理</li>
+                </ul>
+                <ul class="m-left-menu">
+                    <li class="m-top-title">内容管理</li>
+                    <li class="m-child-title" data-url="{:url('content/poster_list')}">帖子管理</li>
+                    <li class="m-child-title" data-url="{:url('content/tag_list')}">标签管理</li>
+                </ul>
+                <ul class="m-left-menu">
+                    <li class="m-top-title">文件管理</li>
+                    <li class="m-child-title" data-url="{:url('file/choose')}?action=1">文件管理</li>
+                </ul>
+                <ul class="m-left-menu">
+                    <li class="m-top-title">用户管理</li>
+                    <li class="m-child-title" data-url="{:url('member/user_list')}">用户列表</li>
+                    <li class="m-child-title" data-url="{:url('member/cash_list')}">提现申请</li>
+                </ul>
+                <ul class="m-left-menu">
+                    <li class="m-top-title">组织管理</li>
+                    <li class="m-child-title" data-url="{:url('rbac/node_list')}">节点管理</li>
+                    <li class="m-child-title" data-url="{:url('rbac/role_list')}">角色管理</li>
+                    <li class="m-child-title" data-url="{:url('rbac/admin_list')}">用户管理</li>
+                </ul>
+                <ul class="m-left-menu">
+                    <li class="m-top-title">系统管理</li>
+                    <li class="m-child-title" data-url="{:url('system/config_list')}">系统配置</li>
+                    <li class="m-child-title" data-url="{:url('system/area_list')}">片区管理</li>
+                </ul>
+            </div>
+        </div>
+        <div class="layui-body" style="bottom: 0;overflow: hidden;left: 150px;top:45px;">
+            <iframe src="{:cookie('admin-url') ? cookie('admin-url') :  url('index/main')}" style="border: none;overflow: hidden;" width="100%" height="100%" id="main-iframe"></iframe>
+        </div>
+    </div>
+</body>
+{/block}

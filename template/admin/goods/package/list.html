@@ -1,0 +1,162 @@
+{extend name="/layer" /} {block name="main"}
+<div class="x-body">
+    <form class="layui-form top-search-form" action="" style="width:800px" onsubmit="return false;">
+        <div class="layui-form-pane">
+            <div class="layui-form-item x-left">
+                <div class="layui-input-inline">
+                    <select class="layui-input" name="ispostage">
+                        <option value="">请选择是否包邮</option>
+                        <option value="1">包邮</option>
+                        <option value="2">不包邮</option>
+                    </select>
+                </div>
+				
+                <div class="layui-input-inline">
+                    <input type="text" name="keyword" placeholder="请输入关键字" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-input-inline" style="width:40px">
+                    <button class="layui-btn layui-btn-sm" lay-submit lay-filter="form-search">
+                        <i class="fa fa-search"></i></button>
+                </div>
+                <div class="layui-input-inline" style="width:40px" id="refresh-window">
+                    <a class="layui-btn layui-btn-sm" href="">
+                        <i class="fa fa-refresh"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="layui-form-item btn-group-define">
+                <div class="layui-input-inline">
+                    <button class="layui-btn layui-btn-sm" id="item-add">
+                        <i class="fa fa-plus-circle"></i>添加</button>
+                </div>
+                <div class="layui-input-inline">
+                    <button class="layui-btn layui-btn-sm layui-btn-danger" id="item-batch-del">
+                        <i class="fa fa-trash-o"></i>删除</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="table_box"></div>
+    <div id="page"></div>
+</div>
+<script>
+var listConfig = tableList = {};
+function setOption (obj,type,opt){
+    var data = {
+        ids:$(obj).parents('tr').attr('rowid'),
+        type:type,
+        value:opt
+    };
+    xAdminItemAddEdit("{:url($ctrl.'/goods_opt')}",data,function () {
+        tableList.refresh();
+    });
+}
+window.recall = function(){
+    //监听提交
+    form.on('submit(form-search)', function(data) {
+        var field = data.field;
+        var where = tableList.config.getWhere();
+        if (field.ispostage) {
+        	where['ispostage'] = field.ispostage;
+        }
+        
+        if (field.keyword) {
+            where['title|entitle'] = ['like', '%' + field.keyword + '%'];
+        }
+        tableList.config.where = where;
+        tableList.search();
+        return false;
+    });
+
+    $("#item-add").on('click', function() {
+        var title = '添加',
+            url = '{:url($ctrl."/".$action."_add")}';
+        xAdminShow(title, url);
+    });
+
+    $("#item-batch-del").on('click', function() {
+        var ids = tableList.getChecked();
+        dealItem('{:url($ctrl."/".$action."_del")}', ids, 2,'确定要删除该礼包吗？删除后不可恢复');
+    });
+
+    //弹出窗口全局变量
+    listConfig = {
+        blockBox: '.table_box',
+        blockBoxHeight: 'window',
+        jsonUrl: '{:url($ctrl."/".$action."_list")}',
+        where: {},
+        getWhere: function() {
+            return {};
+        },
+        widthType: 'tdw',
+        pageNum: 10,
+        nowPage: 1,
+        orderName: "id",
+        orderDirection: "asc",
+        dataContextMenuOpen: true,
+        showPageNav: true,
+        loading: true,
+        dealParam: {
+            selector: '.et_tbody tr',
+            items: {
+            	"edit": {
+                    name: "编辑",
+                    icon: "edit",
+                    callback: function(id) {
+                        var title = '编辑',
+                            url = '{:url($ctrl."/".$action."_edit")}?id=' + id;
+                        xAdminShow(title, url);
+                    }
+                },
+                "del": {
+                    name: "删除",
+                    icon: "trash-o",
+                    callback: function(id) {
+                        dealItem('{:url($ctrl."/".$action."_del")}', id, 2,'确定要删除该礼包吗？删除后不可恢复');
+                    }
+                },
+                "goods": {
+                    name: "商品",
+                    icon: "book",
+                    callback: function(id) {
+                    	var title = '礼包商品',
+                        url = '{:url($ctrl."/".$action."_goods")}?id=' + id;
+                    	xAdminShow(title, url);
+                    }
+                },
+            }
+        },
+        colModel: [{
+            display: 'checkbox',
+            name: 'id',
+            width: '15px'
+        }, {
+            display: '主标题',
+            name: 'title',
+        }, {
+            display: '副标题',
+            name: 'entitle',
+        }, {
+            display: '价格',
+            name: 'price',
+        }, {
+            display: '库存',
+            name: 'num',
+        }, {
+            display: '月销量',
+            name: 'monthnum',
+        }, {
+            display: '包邮',
+            name: 'ispostage',
+            attr:true,
+            attrValue:{1:'<i class="fa fa-check-square-o" style="color:green;cursor: pointer;" onclick="setOption(this,4,2)"><i>',2:'<i class="fa fa-times-circle-o" style="color:#FF5722;cursor: pointer;" onclick="setOption(this,4,1)"></i>'},
+        }, {
+            display: '操作',
+            name: 'dealtools',
+        }, ]
+    };
+    //实例化列表
+    tableList = $('.table_box').EtGrid(listConfig);
+}
+</script>
+{/block}

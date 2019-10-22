@@ -1,0 +1,92 @@
+.body {
+    background: #ECEFF4;
+    overflow: auto;
+    /*height: 100%;*/
+}
+
+.search {
+    display: flex;
+    padding: 20px 10px;
+}
+
+.search picker {
+    background: #fff;
+    width: 250rpx;
+    /*height: 30px;*/
+    text-align: center;
+    border-radius: 3rpx;
+}
+
+.search picker .picker {
+    height: 30px;
+    line-height: 30px;
+}
+
+.search .text {
+    line-height: 30px;
+    margin: 0 10px;
+}
+
+.search .search-btn {
+    line-height: 30px;
+    background: #0D9D8D;
+    color: #fff;
+    margin-left: 15rpx;
+    padding: 0 30rpx;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.list {
+    padding: 0 10px;
+}
+.show-time,
+.order-no{
+  font-size: 23rpx;
+}
+.list .item {
+    margin-bottom: 10px;
+    background: #fff;
+}
+
+.list .item .title {
+    display: flex;
+    border-bottom: solid 1px #ccc;
+    padding: 10px 5px;
+}
+
+.list .item .title .show-time {
+    flex: 1;
+    text-align: right;
+    color: #A6A6A6;
+}
+
+.list .item .income {
+    display: flex;
+    position: relative;
+    padding: 15px;
+}
+
+.list .item .income .text {
+    background: #FE6F00;
+    color: #fff;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    font-size: 16px;
+    font-weight: bold;
+    position: absolute;
+    top: 7px;
+}
+
+.list .item .income .tip-msg {
+    flex: 1;
+    text-align: center;
+}
+
+.list .item .income .money {
+    color: #FE6F00;
+    font-size: 14px;
+}

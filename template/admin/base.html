@@ -1,0 +1,36 @@
+{extend name="/layout" /} {block name="main"}
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin">
+		<div class="layui-header my-defined-haader" style="height: 45px;">
+			<a id="go-main" data-url="{:url('index/main')}" class="layui-logo"
+				href="javascript:void(0);" style="line-height: 45px;width:151px;white-space: nowrap">{$siteTitle}</a>
+			<ul class="layui-nav layui-layout-right">
+				<li class="layui-nav-item" style="line-height: 45px;"><a
+					href="javascript:;">{:session('admin-nickname')}</a>
+					<dl class="layui-nav-child" style="top: 45px;">
+						<dd>
+							<a href="javascript:void(0);" class="win-open"
+								data-url="{:url('index/edit')}">基本资料</a>
+						</dd>
+						<dd>
+							<a href="{:url('index/logout')}">退出登录</a>
+						</dd>
+					</dl>
+				</li>
+			</ul>
+		</div>
+		<div class="layui-side"
+			style="background-color: #FFFFFF; border-right: solid 1px #ccc; width: 150px; top: 45px;">
+			<div class="layui-side-scroll" style="width: 100%;">
+				{:$rbac->menu()}
+			</div>
+		</div>
+		<div class="layui-body" style="bottom: 0; overflow: hidden; left: 150px; top: 45px;">
+			<iframe
+				src="{:cookie('admin-url') ? cookie('admin-url') :  url('index/main')}"
+				style="border: none; overflow: hidden;" width="100%" height="100%"
+				id="main-iframe"> </iframe>
+		</div>
+	</div>
+</body>
+{/block}

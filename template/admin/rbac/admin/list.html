@@ -1,0 +1,136 @@
+{extend name="/layout" /} {block name="main"}
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin my-layout-admin">
+		<div class="layui-header">
+			<form class="layui-form top-search-form" action="" onsubmit="return false;">
+		        <div class="layui-form-pane">
+		        	<div class="layui-form-item">
+		                <div class="layui-input-inline">
+		                    <input type="text" name="keyword" placeholder="请输入关键字" autocomplete="off" class="layui-input">
+		                </div>
+		                <div class="layui-input-inline" style="width:40px">
+		                    <button class="layui-btn layui-btn-sm" lay-submit lay-filter="form-search">
+		                        <i class="fa fa-search"></i></button>
+		                </div>
+		                <div class="layui-input-inline" style="width:40px">
+		                    <a class="layui-btn layui-btn-sm" href="">
+		                        <i class="fa fa-refresh"></i>
+		                    </a>
+		                </div>
+		            </div>
+					<div class="layui-btn-group layui-layout-right">
+						{if condition="$rbac->check($ctrl.'/'.$action.'_add')"}
+						<button class="layui-btn layui-btn-sm win-open" data-url="{:url($ctrl.'/'.$action.'_add')}">
+							<i class="fa fa-plus-circle"></i>添加
+						</button>
+						{/if}
+						{if condition="$rbac->check($ctrl.'/'.$action.'_del')"}
+						<button class="layui-btn layui-btn-sm layui-bg-red" id="batch-delete" data-url="{:url($ctrl.'/'.$action.'_del')}" data-title="用户">
+							<i class="fa fa-trash-o"></i>删除
+						</button>
+						{/if}
+					</div>
+		        </div>
+		    </form>
+		</div>
+		<div class="layui-body" id="table-box"></div>
+		<div class="layui-footer" id="page-box"></div>
+	</div>
+</body>
+<script>
+var listConfig = tableList = {};
+window.recall=function(){
+    //监听提交
+    form.on('submit(form-search)', function(data) {
+        var field = data.field;
+        var where = {};//tableList.config.getWhere();
+        if (field.start) {
+            where['a.addtime'] = ['>=', field.start];
+        }
+        if (field.end) {
+            where['a.addtime'] = ['<=', field.end];
+        }
+
+        if (field.start && field.end) {
+            where['a.addtime'] = ['between', [field.start, field.end]];
+        }
+        if (field.keyword) {
+            where['a.username|a.nickname'] = ['like', '%' + field.keyword + '%'];
+        }
+        adminTable.search(where);
+        /*tableList.config.where = where;
+        tableList.search();*/
+        return false;
+    });
+    
+    
+    tools.table({
+        jsonUrl: "{:url($ctrl.'/'.$action.'_list')}",
+        dealParam: {
+        	{if condition="$rbac->check($ctrl.'/'.$action.'_edit')"}
+        	edit: {
+                name: "编辑",
+                icon: "fa fa-pencil-square",
+                callback: function(row) {
+                    tools.adminShow('编辑用户',"{:url($ctrl.'/'.$action.'_edit')}?id=" + row.id);
+                }
+            },
+            {/if}
+            {if condition="$rbac->check($ctrl.'/'.$action.'_del')"}
+            del:{
+            	name: "删除",
+                icon: "fa fa-trash-o",
+                callback: function(row) {
+                	tools.delItem("{:url($ctrl.'/'.$action.'_del')}",[row.id],'用户');
+                }
+            }
+            {/if}
+        },
+        colModel: [{
+            display: 'checkbox',
+            name: 'id',
+            width: '15px'
+        }, {
+            display: '用户名',
+            name: 'username',
+        }, {
+            display: '昵称',
+            name: 'nickname',
+        }, {
+            display: '角色',
+            name: 'rolename',
+            dealItem:function(row){
+                if(row.roleid == 0){
+                    return '超级管理员';
+                }
+                if(!row.rolename){
+                    return '暂无';
+                }
+                return row.rolename;
+            }
+        },/*{
+            display: '绑定团长',
+            name: 'groupnickname',
+            dealItem:function(row){
+                if(!row.grouprealname){
+                    return '暂无';
+                }
+                return row.groupnickname+' / '+row.grouprealname;
+            }
+        }, */{
+            display: '性别',
+            name: 'sex',
+            dealItem:function(row){
+            	return row.sex == 1 ? '男' : '女';
+            }
+        }, {
+            display: '最后登录时间',
+            name: 'lastlogin',
+        }, {
+            display: '操作',
+            name: 'dealtools',
+        }, ]
+    });
+}
+</script>
+{/block}

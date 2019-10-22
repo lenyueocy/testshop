@@ -1,0 +1,77 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/cls/cls",
+    "pages/car/car",
+    "pages/my/my",
+    "pages/detail/detail",
+    "pages/head/head",
+    "pages/order/order",
+    "pages/orderDetail/orderDetail",
+    "pages/confirm/confirm",
+    "pages/about/about",
+    "pages/userOrder/userOrder",
+    "pages/notice/notice",
+    "pages/noticeDetail/noticeDetail",
+    "pages/addr/addr",
+    "pages/info/info",
+    "pages/income/income",
+    "pages/basic/basic",
+    "pages/master/master",
+    "pages/grant/grant",
+    "pages/user/user",
+    "pages/brokerage/brokerage",
+    "pages/findResult/findResult",
+    "pages/details/details"
+    
+   
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序定位"
+    }
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f5f5f5",
+    "navigationBarTitleText": "一号果仓",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "backgroundColor": "#fff",
+    "selectedColor": "#333",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "image/home.png",
+        "selectedIconPath": "image/homehov.png"
+      },
+      {
+        "pagePath": "pages/cls/cls",
+        "text": "分类",
+        "iconPath": "image/catalogue.png",
+        "selectedIconPath": "image/cataloguehov.png"
+      },
+      {
+        "pagePath": "pages/car/car",
+        "text": "购物车",
+        "iconPath": "image/gwc_3.png",
+        "selectedIconPath": "image/gwc_3hov.png"
+      },
+      {
+        "pagePath": "pages/order/order",
+        "text": "订单",
+        "iconPath": "image/list.png",
+        "selectedIconPath": "image/listhov.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "image/my_1.png",
+        "selectedIconPath": "image/myhov.png"
+      }
+    ]
+  }
+}

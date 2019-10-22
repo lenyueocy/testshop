@@ -1,0 +1,32 @@
+<view class="body" style="height:{{height}}px;">
+    <view class="search">
+        <picker mode="date" bindchange="bindDateChange" data-field="start">
+            <view class="picker">{{start ? start : '点击选择时间'}}</view>
+        </picker>
+        <view class="text">至</view>
+        <picker mode="date" bindchange="bindDateChange" data-field="end">
+            <view class="picker">{{end ? end : '点击选择时间'}}</view>
+        </picker>
+        <view class="search-btn" bindtap="getList">查询</view>
+    </view>
+    <view class="list">
+        <block wx:for="{{listData}}" wx:for-item="item" wx:key="key">
+        <view class="item">
+            <view class="title">
+                <view class="order-no"  wx:if="{{item.type == 1}}">订单号：{{item.orderno}}</view>
+                <view class="show-time">{{item.addtime}}</view> 
+            </view>
+            <view class="income" wx:if="{{item.type == 1}}">
+                <view class="text">收</view>
+                <view class="tip-msg">佣金收入</view>
+                <view class="money">+￥{{item.scalefee}}</view>
+            </view>
+            <view class="income" wx:if="{{item.type == 2}}">
+                <view class="text">支</view>
+                <view class="tip-msg">佣金结算</view>
+                <view class="money">-￥{{item.scalefee}}</view>
+            </view>
+        </view>
+        </block>
+    </view>
+</view>

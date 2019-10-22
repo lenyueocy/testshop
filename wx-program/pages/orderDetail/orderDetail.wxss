@@ -1,0 +1,73 @@
+page{
+  background-color: #F8FAFF;
+}
+.item{
+  padding: 0 20rpx;
+  background-color: #FFFFFF;
+  margin-bottom: 30rpx;
+}
+.second{
+  padding: 30rpx 0;
+  border-bottom: .5rpx solid #D9D9D9;
+}
+.item-img{
+  width: 220rpx;
+  height: 146rpx;
+  margin-right: 20rpx;
+}
+.second .color-r{
+  margin-top: 40rpx;
+}
+.item-num{
+  position: absolute;
+  bottom: 30rpx;
+  right: 0;
+  font-size: 24rpx;
+  color: #999999;
+}
+.third{
+  padding: 15rpx 0;
+  border-bottom: .5rpx solid #D9D9D9;
+}
+.third view,.fouth view{
+  font-size: 24rpx;
+}
+.btn{
+ background-color: #0D9D8D;
+  color: #F4FCFE;
+  font-size: 24rpx;
+  width: 140rpx;
+  text-align: center;
+  border-radius: 10rpx;
+  line-height: 60rpx;
+}
+.del{
+  width: 35rpx;
+  height: 35rpx;
+}
+.fouth{
+  padding: 15rpx 0;
+}
+.list{
+  background-color: #FFFFFF;
+  padding: 30rpx 20rpx;
+  line-height: 2;
+  margin-bottom: 30rpx;
+}
+.color-blue{
+  color: #0D9D8D
+}
+.head-num{
+  text-decoration: underline;
+  color: #0D9D8D
+}
+.toIndex{
+  background-color:#0D9D8D;
+  color: #F4FCFE;
+  font-size: 26rpx;
+  width: 90%;
+  text-align: center;
+  border-radius: 20rpx;
+  line-height: 80rpx;
+  margin: 30rpx auto;
+}

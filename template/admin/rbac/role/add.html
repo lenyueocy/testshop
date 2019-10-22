@@ -1,0 +1,81 @@
+{extend name="/layout" /} 
+{block name="asset"}
+    <link rel="stylesheet" href="/plugins/zTree/css/zTreeStyle/zTreeStyle.css?v={:rand()}">
+    <script type="text/javascript" src="/plugins/zTree/js/jquery.ztree.all.min.js"></script>
+{/block}
+
+{block name="main"}
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin my-layout-admin">
+		{:$html->formBegin()}
+			<div class="layui-body" style="top: 0;">
+				<div class="layui-tab">
+					<ul class="layui-tab-title">
+						<li class="layui-this">基本信息</li>
+					</ul>
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							{:$html->input([
+								'label'=>'角色名称',
+								'lay-verify'=>'required',
+								'name'=>'title',
+							])}
+							
+							<div class="layui-form-item layui-form-text">
+			                    <label class="layui-form-label">权限</label>
+			                    <div class="layui-input-block ztree" id="node-tree">
+			                    </div>
+		                    </div>
+						</div>
+					</div>
+				</div>
+			</div>
+			{:$html->formEnd(url($ctrl."/".$action."_add"))}
+	</div>
+</body>
+<script>
+	var treeData = {:json_encode($nodes)};
+	var setting = {
+		check: {
+			enable: true,
+			autoCheckTrigger: true
+		},
+		data: {
+			simpleData: {
+				enable: true
+			}
+		},
+		callback: {
+			onCheck: onCheck
+		}
+	};
+	function onCheck(event, treeId, treeNode) {
+		cancelHalf(treeNode)
+		treeNode.checkedEx = true;
+	}
+	function onAsyncSuccess(event, treeId, treeNode, msg) {
+		cancelHalf(treeNode);
+	}
+	function cancelHalf(treeNode) {
+		if (treeNode.checkedEx) {
+			return;
+		}
+		var zTree = $.fn.zTree.getZTreeObj("node-tree");
+		treeNode.halfCheck = false;
+		zTree.updateNode(treeNode);	
+	}
+	var beforeSubForm = function(formObj){
+		var zTree = $.fn.zTree.getZTreeObj("node-tree");
+		var checkedNodes = zTree.getCheckedNodes();
+		var checked = [];
+		for(var key in checkedNodes){
+			checked.push(checkedNodes[key].id);
+		}
+		formObj.nodes = checked;
+		return formObj;
+	}
+	window.recall=function(){
+		$.fn.zTree.init($("#node-tree"), setting, treeData);
+	}
+</script>
+{/block}

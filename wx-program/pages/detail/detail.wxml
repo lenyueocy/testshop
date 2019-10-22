@@ -1,0 +1,185 @@
+<view class='ui-cell tab-head'>
+    <view catchtap='selectTab' data-opt="1" class="{{opt=='1'?'active':''}}">
+        <text>商品说明</text>
+    </view>
+    <view catchtap='selectTab' data-opt="2" class="{{opt=='2'?'active':''}}">
+        <text>购买记录</text>
+    </view>
+</view>
+<view class='explain' wx:if="{{opt=='1'}}">
+    <view style="padding:0 20rpx;box-sizing:border-box;background-color:#fff;">
+    <swiper indicator-dots="{{true}}" autoplay="{{true}}" class="item-img">
+        <block wx:for="{{detail.imageUrl}}" wx:key="k">
+            <swiper-item>
+                <image  class='img_100' src="{{item}}?imageView2/2/w/750/h/500"/>
+            </swiper-item>
+        </block>
+    </swiper>
+    <view class='ui-cell top-price'>
+        <view class='price-box ui-primary'>
+            <view class='new-price price'>
+                <text>￥</text>
+                <text>{{detail.price}}</text>
+            </view>
+            <view class='old-price price'>
+                <text>￥</text>
+                <text>{{detail.saleprice}}</text>
+            </view>
+        </view>
+        <view class='item-num'>
+            <!-- <view>已售{{detail.num-detail.leftnum}}份/剩余{{detail.leftnum}}份</view> -->
+            <view>即将结束</view>
+            <view  wx:for="{{countDownList}}" wx:key="countDownList">
+                <text >{{item.day}}</text>天
+                <text >{{item.hou}}</text>时
+                <text >{{item.min}}</text>分
+                <text >{{item.sec}}</text>秒
+            </view>
+        </view>
+        <view class='ui-primary'></view>
+    </view>
+    <view class='product-name ui-cell'>{{detail.title}}</view>
+    <view class='product-des ui-cell'>
+      <text>{{detail.entitle}}</text>
+      <view class="attention">关注人数 {{detail.hits}}</view>
+    </view>
+    <view class='ui-cell estimate'>
+      <view>
+          <view style="color:red;">预售时间：{{detail.salestart}}至 {{detail.saleend}}</view>
+          <view wx:if="{{detail.sendtxt!==''}}" style="color:red;">提货时间：{{detail.sendtxt}}</view>
+          <view wx:else style="color:red;">提货时间：{{detail.sendTime}}</view>
+      </view>
+      <!--<view class="estimate-sale">已售<text style="color:red;">{{detail.num - detail.leftnum}}</text>份/还剩 <text style="color:red;">{{detail.leftnum}}</text>份</view>-->
+        <view   wx:if="{{!detail.unit_name== ''}}" class="estimate-sale">已售<text style="color:red;">{{detail.num - detail.leftnum}}</text>{{detail.unit_name}}/还剩 <text style="color:red;">{{detail.leftnum}}</text>{{detail.unit_name}}</view>
+        <view  wx:if="{{detail.unit_name== ''}}" class="estimate-sale">已售<text style="color:red;">{{detail.num - detail.leftnum}}</text>份/还剩 <text style="color:red;">{{detail.leftnum}}</text>份</view>
+    </view>
+</view>
+
+<view class="share">
+  <view class='wx-box'>
+    <button  data-info='{{order}}' open-type="share" hover-class='none'>
+      <image src='/image/wx.png'></image>
+      <view class='index-tx'>好友分享</view>
+    </button>
+  </view>poster
+    <view class='code-box' bindtap="poster">
+      <image src='/image/yewm.png'></image>
+       <view class='index-tx'>商品海报</view>
+  </view>
+</view>
+
+<view class='recommend'>
+    <view style='border-top:1rpx dashed #ccc;width:100%'></view>
+    <view class="recommend-title">最好搭配以下商品一起购买</view>
+    <image class="headLeft" src='/image/left.png'></image>
+    <image class="headRight" src='/image/right_1.png'></image>
+    <view class="orderList">
+      <view class="orderBox" style="width:{{Goods.length*200}}px">
+        <block wx:for="{{Goods}}" wx:for-index="inc" wx:key="">
+            <navigator url="/pages/detail/detail?gudsid={{item.id}}">
+        <view class="orderGood">
+          <image style="width:100%"  src='{{item.imageUrl}}'></image>
+          <view class='orderPrice'>￥{{item.price}}</view>
+          <view class="orderDes">{{item.title}}</view>
+        </view>
+            </navigator>
+        </block>
+      </view>
+    </view>
+</view>
+    <block wx:for="{{detail.atlasImage}}" wx:for-item="img" wx:key="key" wx:for-index="inc">
+        <image style="width:100%" src='{{img}}' bindtap="viewImage" data-inc="{{inc}}" mode="widthFix"></image>
+    </block>
+</view>
+<view class='record' wx:if="{{opt=='2'}}">
+  <view class="recordGood">
+      <view class="recordeContent">
+        <view  class="recordeImg">
+          <image src='{{detail.imageUrl[0]}}'></image>
+          <!-- <view class="attent">关注:154</view> -->
+        </view>
+          <view class="recordeDes">
+            <view class="recordTitle">{{detail.title}}</view>
+            <view class="attented">关注 {{detail.hits}}</view>
+            <view >
+              <view class='goodPrice'>
+                  <text>￥</text>
+                  <text style="font-size:42rpx;">{{detail.price}}</text>
+              </view>
+              <view class='goodOldPrice'>
+                  <text>￥{{detail.saleprice}}</text>
+              </view>
+            </view>
+            <!--<view>还剩<text style="color:red">{{detail.leftnum}}</text>份</view>-->
+              <view wx:if="{{!detail.unit_name== ''}}">还剩<text style="color:red">{{detail.leftnum}}</text>{{detail.unit_name}}</view>
+              <view wx:if="{{detail.unit_name== ''}}">还剩<text style="color:red">{{detail.leftnum}}</text>份</view>
+          </view>
+      </view>
+      <view class="recordTime">
+          <view style="">销售时间:{{detail.salestart}}至 {{detail.saleend}}</view>
+          <view wx:if="{{detail.sendtxt!==''}}" style="float:right">提货:{{detail.sendtxt}}</view>
+          <view wx:else style="float:right">提货:{{detail.sendTime}}</view>
+      </view>
+  </view>
+
+  <view class="allNum">共有 {{numinfo.length}} 人购买</view>
+    <block wx:for="{{record}}"  wx:for-item="rerd" wx:key="key" wx:for-index="inc">
+        <view class='ui-cell user-item'>
+            <view class='user-hic'>
+                <image class='img_100' src='{{rerd.headpic}}?imageView2/2/w/68/h/68' wx:if="{{rerd.headpic}}"></image>
+                <image class='img_100' src='../../image/head-hic.png' wx:if="{{!rerd.headpic}}"></image>
+            </view>
+            <view class='ui-primary user-name'>{{rerd.nickname}}</view>
+            <!--<view  style="position:absolute;left:50%;top:37%;transfrom:translate(-10%;50%);"><text style="color:#ff0063">{{rerd.buyNum}}</text>份</view>-->
+            <view  wx:if="{{!detail.unit_name== ''}}" style="position:absolute;left:50%;top:37%;transfrom:translate(-10%;50%);"><text style="color:#ff0063">{{rerd.buyNum}}</text>{{detail.unit_name}}</view>
+            <view   wx:if="{{detail.unit_name== ''}}"style="position:absolute;left:50%;top:37%;transfrom:translate(-10%;50%);"><text style="color:#ff0063">{{rerd.buyNum}}</text>份</view>
+            <view>{{rerd.addtime}}</view>
+        </view>
+    </block>
+</view>
+<view class='bottom-box'>
+    <view class='ui-cell'style="padding:0;">
+        <!-- <navigator class='car-box' url="/pages/index/index" open-type="switchTab">
+            <view class='index-select'>
+                <image class='img_100' src='/image/index-select.png'></image>
+            </view>
+            <view class='index-tx'>回首页</view>
+        </navigator> -->
+        <navigator class='car-box' url="/pages/car/car" open-type="switchTab">
+            <view class='car'>
+                <image class='img_100' src='/image/gwc_2.png'></image>
+            </view>
+            <view class='tips'>{{cartNum}}</view>
+        </navigator>
+        <view class='ui-primary'></view>
+        <view class='detail-btn tocar' bindtap='addCart' wx:if="{{detail.leftnum >= 1 }}">加入购物车</view>
+        <view class='detail-btn toconfirm' bindtap='toConfirm' wx:if="{{detail.leftnum >= 1 }}">去结算</view>
+        <view class='detail-btn sellOut' wx:if="{{detail.leftnum < 1 }}">已售罄</view>
+        
+    </view>
+</view>
+
+<view class="shadow" hidden="{{poster}}" bindtap='shadow' ></view>
+<view class="poster" hidden="{{poster}}" bindtap="viewEwm" data-src="{{qrcode}}">
+  <view class="posTop">
+    <view class="protrait">
+        <image src="{{address.headpic==''?'../../image/head.png':address.headpic}}"></image>
+    </view>
+    <view class="posDes">
+      <view> {{address.realname}} <text>分享给你一个商品</text></view>
+      <view>{{address.title}}</view>
+    </view>
+  </view>
+  <view style="margin:20rpx 0">
+    <image style="width:100%;height:8.5rem;margin-bottom：30rpx" src="{{detail.imageUrl[0]}}" ></image>
+  </view>
+  <view class="posIntroduce" >
+      <view class="" style="width:9rem;">{{detail.titleLimit}}</view>
+      <view style="margin:10rpx 0;font-size:40rpx;color:red;"><text style="font-size:22rpx;color:#FF9E9E">团购价：￥</text>{{detail.price}}</view>
+      <view class="touch">微信长按图片识别</view>
+  </view>
+  <view class="wxCode" >
+    <image  style="width:100%;height:100%;" src="{{qrcode}}"></image>
+  </view>
+  <view class="saveImg" >长按识别二维码</view>
+</view>

@@ -1,0 +1,73 @@
+{extend name="/layout" /} {block name="main"}
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin my-layout-admin">
+		{:$html->formBegin()} <input type="hidden" name="parentid"
+			value="{$Think.get.pid}"> <input type="hidden" name="level"
+			value="{$parent ? ($parent['level'] +1) : 1}">
+		<div class="layui-body" style="top: 0;">
+			<div class="layui-tab">
+				<ul class="layui-tab-title">
+					<li class="layui-this">基本信息</li>
+					<li>图片信息</li>
+				</ul>
+				<div class="layui-tab-content">
+					<div class="layui-tab-item layui-show">
+						{notempty name="parent"}
+							{:$html->input([
+								'label'=>'父级分类',
+								'lay-verify'=>'required',
+								'ext'=>'disabled',
+								'name'=>'parent_node',
+								'value'=>$parent['title']
+							])}
+						{/notempty}
+						{:$html->input([
+							'label'=>'分类标题',
+							'lay-verify'=>'required',
+							'name'=>'title',
+						])}
+						{:$html->input([
+							'label'=>'排序',
+							'lay-verify'=>'required|number',
+							'name'=>'sort',
+							'value'=>''
+						])}
+					</div>
+					<!--***********图片*************-->
+					<div class="layui-tab-item">
+						{:$html->images([
+							'field'=>'single',
+							'label'=>'分类图片'
+						])}
+					</div>
+				</div>
+			</div>
+		</div>
+		{:$html->formEnd(url($ctrl."/".$action."_add"),'sub-form')}
+	</div>
+</body>
+<script>
+	window.recall = function() {
+		$(".upload-img-list").on("click",'#upload-btn-single',function(){
+            window.uploadConfig = {
+                num : 1,
+                container : "#upload-container-single",
+                mark : 'single',
+                chooseFunc : tools.chooseFile
+            }
+            tools.adminShow('分类图片',"{:url('file/choose')}");
+        });
+		
+		form.on('submit(sub-form)', function(data) {
+			tools.ajax('{:url($ctrl."/".$action."_add")}',data.field,function(){
+				layer.success('添加成功');
+		        setTimeout(function(){
+		            tools.adminClose();
+					parent.window.pageTool.refresh();
+		        },1500);
+			});
+		});
+	}
+</script>
+
+{/block}

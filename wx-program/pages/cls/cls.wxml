@@ -1,0 +1,72 @@
+<!--pages/class/index.wxml-->
+	<view class='search-box'>
+		<input type='search' placeholder='输入商品名称' confirm-type="search" bindinput="searchValueInput" bindconfirm="bindConfirm" value="{{searchValue}}"></input>
+    <image class="searchImg" src='/image/search_1.png' bindtap="bindConfirm"></image>
+	</view>
+<view class='ui-cell list'>
+    <!-- 左侧分类名 -->
+    <view class='list-lt ui-cell-lt'>
+     <view class="{{nowInc == -1 ? 'active' : ''}}" bindtap="changeTab" data-inc="-1" data-cid="0">所有商品</view>
+        <block wx:for="{{cateList}}" wx:for-item="cate" wx:for-index="inc" wx:key="k">
+            <view class="{{nowInc == inc ? 'active' : ''}}" bindtap="changeTab" data-inc="{{inc}}" data-cid="{{cate.id}}">{{cate.title}}</view>
+        </block>
+    </view>  
+    <!-- 右侧产品 -->
+    <view class='list-rt ui-primary ui-cell-lt'>
+        <!-- 循环此处列表 -->
+        <block wx:for="{{gudsList}}" wx:for-item="guds" wx:key="key" wx:for-index="inc">
+            <navigator class='ui-cell product' url="/pages/detail/detail?gudsid={{guds.id}}">
+                <view class='product-img ui-cell-lt'>
+                    <image class='img_100 outBox1' src='{{guds.imageUrl}}'></image>
+                    <!--<view wx:if="{{guds.leftnum <= 0}}"><image class='outBox' src='/image/sell.png'></image></view>-->
+                    <image class="img_100 outBox" src="/image/outline.png"></image>
+                </view>
+                <view class="proIntroduce">
+                  <view class="proActivity">{{guds.entitle}}</view>
+                </view>
+                <view class='ui-primary product-info'> 
+                    <view class='ui-nowrap-2 product-name'>{{guds.title}}</view>
+                    <!-- <view class='product-price'>￥ <text>{{guds.price}}</text> </view> -->
+                </view>
+            </navigator>
+            
+            <view class='info'>
+              <view class='ui-cell'style="position:relative;">
+              <view style="float:left;overflow:hidden">
+                <view class='price-box'>
+                  <view class='new-price price'>
+                    <text class='color-r'>￥</text>
+                    <text class='color-r'>{{guds.price}}</text>
+                  </view>
+                  <view class='old-price price'>
+                    <text>￥</text>
+                    <text class='color-9'>{{guds.saleprice}}</text>
+                  </view>
+                </view>
+                <view class='item-num'>
+                  <!--<view style="font-size:22rpx">已售<text style="background-color:#fff;color:#ff0063"> {{guds.num - guds.leftnum}} </text>份/剩余 <text style="background-color:#fff; color:#ff0063"> {{guds.leftnum}} </text> 份</view>-->
+                    <view wx:if="{{!guds.unit_name== ''}}" style="font-size:22rpx">已售<text style="background-color:#fff;color:#ff0063"> {{guds.num - guds.leftnum}} </text>{{guds.unit_name}}/剩余 <text style="background-color:#fff; color:#ff0063"> {{guds.leftnum}} </text> {{guds.unit_name}}</view>
+                    <view wx:if="{{guds.unit_name== ''}}" style="font-size:22rpx">已售<text style="background-color:#fff;color:#ff0063"> {{guds.num - guds.leftnum}} </text>份/剩余 <text style="background-color:#fff; color:#ff0063"> {{guds.leftnum}} </text> 份</view>
+                </view>
+              </view>
+                <view class="joinCar">
+                  <view class='ui-primary'></view>
+                  <view wx:if="{{guds.leftnum >0}}" class='item-btn getcard' bindtap="addCart" data-inc="{{inc}}">加入购物车</view>
+                  <view wx:if="{{guds.leftnum <= 0}}" class='item-btn sellout'>已售罄</view>
+                  <view class='ui-primary'></view>
+                </view>
+              </view>
+
+              <view style="width:63%;height:60rpx;line-height:60rpx;font-size:26rpx;padding:0 15rpx;">
+               <view style="float:right;font-size:22rpx;margin-right:8rpx;">结束:<text style="background-color:#fff;color:#ff0000"> {{guds.saleend}}</text> </view>
+               <view style="font-size:22rpx;">开始:<text style="background-color:#fff;color:#ff0000"> {{guds.salestart}}</text> </view>
+               
+              </view>
+              </view>
+        </block>
+        <view hidden='{{noGoods}}' style='background-color:#fff;width:540rpx;height:540rpx;box-sizing:border-box;'>
+         <image style="width:80%;height:80%;margin-left:40rpx;;" src="../../image/nofind.png"></image>
+         <text style="font-size:30rpx;color:#ccc;position:absolute;left:48%;transfrom:translate(-50%);bottom:100rpx;">没有找到您想要的</text>
+        </view>
+    </view> 
+</view>

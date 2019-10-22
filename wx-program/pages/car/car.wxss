@@ -1,0 +1,142 @@
+/* pages/car/car.wxss */ 
+page{
+  background-color: #F9FAFF;
+  padding-bottom:130rpx;
+}
+.top{
+  height: 100rpx;
+  line-height: 100rpx;
+  color: #fff;
+  padding: 0 30rpx;
+  position: relative;
+  background-color: #009a8c;
+}
+.btn{
+  position: absolute;
+  right: 20rpx;
+  color: #fff;
+  top: 0;
+
+}
+.select{
+  width: 40rpx;
+  height: 40rpx;
+}
+.item-img{
+  width: 220rpx;
+  height: 146rpx;
+  margin: 0 20rpx;
+}
+.list{
+  background-color: #FFFFFF;
+
+}
+.info-box{
+  padding: 0;
+  margin-top: 20rpx;
+  position: relative;
+  height: 30rpx;
+  bottom: 20rpx;
+}
+.goodsTitle{
+  height: 100rpx;
+  display:block;
+  /* white-space:nowrap; */
+  overflow:hidden; 
+  text-overflow:ellipsis;
+}
+.price{
+  color: #FF3B06;
+  font-weight: bold;
+  margin-top: -45rpx;
+}
+.num-box{
+  border: .5rpx solid #009a8c;
+  margin: 0 0rpx;
+  width: 170rpx;
+  position: absolute;
+  right: 50rpx;
+  margin-bottom: -22rpx;
+}
+.num-box text{
+  display: inline-block;
+  width: 33.3%;
+  text-align: center;
+  /* padding: 5rpx 0; */
+  /* border-right: .5rpx solid #D8D8D8; */
+}
+.num-box text:first-of-type,
+.num-box text:last-of-type{
+  border: none;
+  background-color:#009a8c;
+  color: #fff;
+  font-size: 30rpx;
+}
+.del{
+  width: 35rpx;
+  height: 35rpx;
+  position: absolute;
+  right: 5rpx;
+}
+.item{
+  border-bottom: .5rpx solid #D8D8D8; 
+}
+.list .item:last-of-type{
+  border: none;
+}
+.bottom-box{
+  position: fixed;
+  width: 100%;
+  background-color: #FFFFFF;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+}
+.bottom-select text{
+  line-height: 40rpx;
+  font-size: 22rpx;
+  margin-right: 30rpx;
+  margin-left: 10rpx;
+}
+.bottom-select image{
+  display: inline-block;
+  width: 40rpx;
+  height: 40rpx;
+  position:relative;
+  top:10rpx;
+}
+.allPrice{
+  font-size: 38rpx;
+  color: #FF3B06;
+  font-weight: bold;
+}
+.toconfirm{
+  /* background: -webkit-linear-gradient(left, #BCA1FF , #7D87FF);
+  background: -o-linear-gradient(right, #BCA1FF, #7D87FF); 
+  background: -moz-linear-gradient(right, #BCA1FF, #7D87FF);
+  background: linear-gradient(to right, #BCA1FF , #7D87FF); */
+  background-color:red;
+  color: #F4FCFE;
+  width:250rpx;
+  height:80rpx;
+  line-height:80rpx;
+  text-align:center;
+  border-radius: 5rpx;
+}
+
+.empty_wrap{
+  width: 100%;
+  
+}
+.img_no{
+  margin-top:30%; 
+  margin-left:21%; 
+  width: 400rpx;
+  height: 300rpx;
+}
+.dat_no{
+  font-size: 1rem;
+  margin-left:12%; 
+   
+   height: 30rpx;
+}

@@ -1,0 +1,92 @@
+<view class='ui-cell first'>
+    <view>微邻团购</view>
+    <view>
+        <image class='img_100' src='/image/addrr.png'></image>
+    </view>
+    <view>{{group.title}}</view>
+</view>
+
+<view class='ui-cell second'>
+    <view class='ordercode'>提货码：</view>
+    <view class='input ui-primary'>
+       <input style="padding-left:15rpx" type="number" placeholder='请输入您要查找的提货码' maxlength = "6" bindinput="searchValueInput" value="{{searchValue}}"></input>
+    </view>
+    <view class='btn' bindtap="searchCode">
+       查找
+    </view>
+</view>
+
+<view class='ui-cell second'>
+    <view class='head-hic'>
+        <image class='img_100' src='{{group.headpic}}'></image>
+    </view>
+    <view class='info ui-primary'>
+        <view>{{group.realname}}</view>
+        <view>{{group.mobile}}</view>
+    </view>
+    <view class='code' bindtap="viewQrCode">
+        <image class='img_100' src='/image/ewm (2).png'></image>
+    </view>
+</view>
+
+<view class='list'>
+    <navigator url="/pages/user/user" class='ui-cell item'>
+        <view class='icon-img'>
+            <image class='img_100' src='/image/tzicon1.png'></image>
+        </view>
+        <view class='ui-primary'>我的信息</view>
+        <view class='icon-img'>
+            <image class='img_100' src='/image/right.png'></image>
+        </view>
+    </navigator>
+    <!-- <navigator url="/pages/info/info" class='ui-cell item'>
+        <view class='icon-img'>
+            <image class='img_100' src='/image/tzicon2.png'></image>
+        </view>
+        <view class='ui-primary'>收入概览</view>
+        <view class='icon-img'>
+            <image class='img_100' src='/image/right.png'></image>
+        </view>
+    </navigator> -->
+    <navigator url="/pages/income/income" class='ui-cell item'>
+        <view class='icon-img'>
+            <image class='img_100' src='/image/tzicon3.png'></image>
+        </view>
+        <view class='ui-primary'>收入明细</view>
+        <view class='icon-img'>
+            <image class='img_100' src='/image/right.png'></image>
+        </view>
+    </navigator>
+    <navigator url="/pages/userOrder/userOrder" class='ui-cell item'>
+        <view class='icon-img'>
+            <image class='img_100' src='/image/tzicon4.png'></image>
+        </view>
+        <view class='ui-primary'>会员订单</view>
+        <view class='icon-img'>
+            <image class='img_100' src='/image/right.png'></image>
+        </view>
+    </navigator>
+    <navigator url="/pages/notice/notice" class='ui-cell item' >
+        <view class='icon-img'>
+            <image class='img_100' src='/image/tzicon5.png'></image>
+        </view>
+        <view class='ui-primary'>通知公告</view>
+        <view class='icon-img'>
+            <image class='img_100' src='/image/right.png'></image>
+        </view>
+    </navigator>
+      <navigator url="/pages/brokerage/brokerage" class='ui-cell item' >
+        <view class='icon-img'>
+            <image class='img_100' src='/image/tzicon6.png'></image>
+        </view>
+        <view class='ui-primary'>佣金管理</view>
+        <view class='icon-img'>
+            <image class='img_100' src='/image/right.png'></image>
+        </view>
+    </navigator>
+</view>
+<view class='bottom-box ui-cell'>
+    <navigator open-type='switchTab' url='/pages/index/index'>返回到商城首页</navigator>
+    <view  bindtap="viewQrCode">生成我的二维码</view>
+</view>
+ 

@@ -1,0 +1,65 @@
+/* pages/brokerageDetail/brokerageDetail.wxss */
+.table {
+  border: 0px solid darkgray;
+}
+.integralTitle{
+  background-color: #159B8D;
+  color:#fff;
+
+}
+.table .tr:first-of-type{
+  padding: 0；
+}
+.tr {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  height: 3rem;
+  align-items: center;
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+.td {
+    width:40%;
+    justify-content: center;
+    /* text-align: center; */
+}
+.bg-w{
+  background: snow;
+}
+.bg-g{
+  background: #E6F3F9;
+}
+.th {
+  width: 40%;
+  justify-content: center;
+  background: #868FD4;
+  color: #fff;
+  display: flex;
+  height: 3rem;
+  align-items: center;
+}
+.empty_wrap{
+  width: 100%;
+
+}
+.img_no{
+  margin-top:30%;
+  margin-left:30%;
+  width: 300rpx;
+  height: 300rpx;
+}
+.dat_no{
+  font-size: 1rem;
+  margin-left:35%;
+   height: 30rpx;
+}
+
+.integral{
+  width:100rpx;
+  text-align: center;
+  font-size: 32rpx;
+  line-height: 60rpx;
+  font-weight: bold;
+  color: red;
+}

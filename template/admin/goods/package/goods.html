@@ -1,0 +1,131 @@
+{extend name="/layer" /} {block name="main"}
+<form class="layui-form layui-form-pane" onsubmit="return false;">
+	<input type="hidden" name="package" value="{$Think.get.id}">
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li class="layui-this">基本信息</li>
+        </ul>
+        <div class="layui-tab-content">
+        	<div class="layui-tab-item layui-show">
+	        	<div class="layui-form-item">
+	                <label for="title" class="layui-form-label">礼包名称</label>
+	                <div class="layui-input-block">
+	                    <input type="text" value="{$detail.title}" readonly class="layui-input">
+	                </div>
+	            </div>
+	            {volist name="package" id="pack"}
+					<div class="layui-form-item" id="category-item-{$i-1}">
+						<label class="layui-form-label">商品</label>
+						<div class="layui-input-inline select-guds" style="width:200px;">
+							<select name="guds[{$i-1}][goodsid]" data-inc="{$i-1}" lay-search lay-filter="goods">
+								<option value="">请选择商品</option>
+								{volist name="allGoods" id="guds" key="zhanyong"}
+									<option value="{$guds.id}">{$guds.title}</option>
+								{/volist}
+							</select>
+						</div>
+						<div class="layui-input-inline" style="width:100px;">
+		                    <input type="text" value="{$pack.num}" name="guds[{$i-1}][num]" lay-verify="required|number" class="layui-input" placeholder="数量">
+		                </div>
+						{eq name="i" value="1"}
+							<i id="cate-add" class="fa fa-plus-square" style="font-size:35px;color:#009688;cursor: pointer;"></i>
+							<i id="cate-sub" class="fa fa-minus-square" style="font-size:35px;color:#FF5722;cursor: pointer;"></i>
+						{/eq}
+					</div>
+				{/volist}
+            </div>
+        </div>
+    </div>
+    {:adminBtns()}
+</form>
+<script type="text/javascript">
+	var inc = {$i-1};
+	var allGoods = {:json_encode($allGoods)};
+	var packageInfo = {:json_encode($package)};
+	window.recall = function(){
+        setTimeout(function(){
+        	for(var k in packageInfo){
+        		$("#category-item-"+k).find("option[value='"+packageInfo[k].goodsid+"']").attr("selected",true);
+        		var guds = allGoods[packageInfo[k].goodsid];
+        		
+        		if(guds && guds.hasSku > 0 ){
+        			var skuHtml = '';
+					for(var id in guds.skus){
+						var sel = id == packageInfo[k].skuid ? 'selected' : '';
+						skuHtml+='<option value="'+id+'" '+sel+'>'+guds.skus[id]+'</option>';
+					}
+					var el = $("#category-item-"+k).find('.layui-input-inline')
+					var html = '<div class="layui-input-inline goods-sku" style="width:250px;">'+
+										'<select name="guds['+k+'][skuid]" lay-search>'+
+										'<option value="">请选择属性</option>'+
+										'{volist name="allGoods" id="guds"}'+
+										skuHtml+
+										'{/volist}'+
+									'</select>'+
+								'</div>';
+					$("#category-item-"+k).find('.select-guds').after(html);
+        		}
+        	}
+        	form.render('select');
+        },500);
+        
+        form.on('select(goods)', function(data){
+			if(data.value){
+				var guds = allGoods[data.value];
+				if(guds.hasSku>0){
+					var key = $(data.elem).data('inc');
+					var skuHtml = '';
+					for(var id in guds.skus){
+						skuHtml+='<option value="'+id+'">'+guds.skus[id]+'</option>';
+					}
+					var html = '<div class="layui-input-inline goods-sku" style="width:200px;">'+
+										'<select name="guds['+key+'][skuid]" lay-search>'+
+										'<option value="">请选择属性</option>'+
+										skuHtml+
+									'</select>'+
+								'</div>';
+					$(data.elem).parents('.layui-input-inline').after(html);
+				}else{
+					$(data.elem).parents('.layui-input-inline').siblings('.goods-sku').remove();
+				}
+			}
+			form.render('select');
+       	});
+        
+        
+        $("#cate-add").on("click",function(){
+        	inc+=1;
+        	var htmlStr = "",opotStr = "";
+        	for(var id in allGoods){
+        		opotStr += '<option value="'+id+'">'+allGoods[id].title+'<option>';
+        	}
+        	htmlStr+='<div class="layui-form-item" id="category-item-'+inc+'">'+
+        	'<label class="layui-form-label">商品</label>'+
+        	'<div class="layui-input-inline select-guds" style="width:200px;">'+
+        		'<select name="guds['+inc+'][goodsid]" data-inc="'+inc+'" lay-search lay-filter="goods">'+
+        			'<option value="">请选择商品</option>'+opotStr+
+        		'</select>'+
+        	'</div>'+
+        	'<div class="layui-input-inline" style="width:100px;">'+
+            	'<input type="text" value="1" name="guds['+inc+'][num]" lay-verify="required|number" class="layui-input" placeholder="数量">'+
+        	'</div>'+
+        	'</div>';
+        	$(".layui-show").append(htmlStr);
+        	form.render('select');
+        });
+        
+        $("#cate-sub").on("click",function(){
+        	if(inc == 0){
+        		return false;
+        	}
+        	$(".layui-show").find("#category-item-"+inc).remove();
+        	inc-=1;
+        });
+        
+        
+        form.on('submit(form-submit)', function(data) {
+            xAdminItemAddEdit("{:url($ctrl.'/'.$action.'_goods')}",data.field);
+        });
+    }
+</script>
+{/block}

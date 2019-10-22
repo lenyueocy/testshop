@@ -1,0 +1,163 @@
+{extend name="/layout" /} 
+{block name="main"}
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin my-layout-admin">
+		<div class="layui-header">
+			<form class="layui-form top-search-form" action="" onsubmit="return false;">
+		        <div class="layui-form-pane">
+		        	<div class="layui-form-item">
+		                <div class="layui-input-inline">
+		                    <input type="text" name="keyword" placeholder="请输入关键字" autocomplete="off" class="layui-input">
+		                </div>
+		                <div class="layui-input-inline" style="width:40px">
+		                    <button class="layui-btn layui-btn-sm" lay-submit lay-filter="form-search">
+		                        <i class="fa fa-search"></i></button>
+		                </div>
+		                <div class="layui-input-inline" style="width:40px">
+		                    <a class="layui-btn layui-btn-sm" href="">
+		                        <i class="fa fa-refresh"></i>
+		                    </a>
+		                </div>
+		            </div>
+					<div class="layui-btn-group layui-layout-right">
+
+						{if condition="$rbac->check($ctrl.'/'.$action.'_export')"}
+						<button class="layui-btn layui-btn-sm export-btn" lay-submit lay-filter="form-export">
+							<i class="fa fa-upload"></i>导出
+						</button>
+						{/if}
+					</div>
+					<div class="layui-btn-group layui-layout-right" style="display:none;">
+						{if condition="$rbac->check($ctrl.'/'.$action.'_upgrade')"}
+						<button class="layui-btn layui-btn-sm batch-deal-btn" data-url="{:url($ctrl.'/'.$action.'_upgrade')}" data-msg="确定要将已选中的用户升为团长吗？" data-val="2">
+							<i class="fa fa-rss"></i>升级
+						</button>
+						{/if}
+					</div>
+		        </div>
+		    </form>
+		</div>
+		<div class="layui-body" id="table-box"></div>
+		<div class="layui-footer" id="page-box"></div>
+	</div>
+</body>
+<script>
+window.recall=function(){
+    //监听提交
+    form.on('submit(form-search)', function(data) {
+        var field = data.field;
+        var searchWhere = {};
+
+        if (field.type) {
+            searchWhere['a.type'] = field.type;
+        }
+        if (field.keyword) {
+            searchWhere['a.nickname|a.mobile'] = ['like', '%' + field.keyword + '%'];
+        }
+        adminTable.search(searchWhere);
+        return false;
+    });
+    form.on('submit(form-export)', function(data) {
+        var field = data.field;
+        var searchWhere = {};
+       	searchWhere['a.type'] =1;
+        if("{$Think.get.fromid}"){
+            searchWhere['a.fromid'] = "{$Think.get.fromid}";
+        }
+        if (field.keyword) {
+            searchWhere['a.nickname|a.mobile'] = ['like', '%' + field.keyword + '%'];
+        }
+        tools.ajax('{:url("member/user_export")}',{where:searchWhere},function(res){
+            var $a = $("<a>");
+            $a.attr("href", res.file);
+            $a.attr("download", res.filename);
+            $("body").append($a);
+            $a[0].click();
+            $a.remove();
+        })
+        return false;
+    });
+
+    tools.table({
+        jsonUrl: "{:url($ctrl.'/'.$action.'_list')}",
+        getWhere:function(){
+        	var wh = {'a.type':1};
+        	if("{$Think.get.fromid}"){
+        		wh['a.fromid'] = "{$Think.get.fromid}";
+        	}
+        	return wh;
+        },
+        dealParam: {
+        	{if condition="$rbac->check($ctrl.'/'.$action.'_upgrade')"}
+            upgrade: {
+                name: "升级",
+                icon: "fa fa-rss",
+                callback: function(row) {
+                	tools.adminShow('升级用户为团长',"{:url($ctrl.'/'.$action.'_upgrade')}?id=" + row.id);
+                }
+            },
+        	{/if}
+            {if condition="$rbac->check($ctrl.'/'.$action.'_change')"}
+            change: {
+                name: "修改",
+                icon: "fa fa-edit",
+                callback: function(row) {
+                    tools.adminShow('修改用户团长',"{:url($ctrl.'/'.$action.'_change')}?id="+row.id);
+                }
+            }
+            {/if}
+        },
+        colModel: [{
+            display: 'checkbox',
+            name: 'id',
+            width: '15px'
+        }, {
+            display: '头像',
+            name: 'headpic',
+            width: '50px',
+            dealItem:function(row){
+            	return '<img src="'+row.headpic+'" style="max-height: 50px;">';
+            }
+        }, {
+            display: '昵称/手机号',
+            name: 'nickname',
+            dealItem:function(row){
+            	return '<div class="text-wrap" style="width:150px;">'+row.nickname+'<br>'+row.phone+'</div>';
+            }
+        }, {
+            display: '性别',
+            name: 'sex',
+            dealItem:function(row){
+            	return row.sex == 1 ? '男' : '女';
+            }
+        },{
+            display: '来源',
+            name: 'sex',
+            dealItem:function(row){
+                return '微信';
+            }
+        }, {
+            display: '团长姓名',
+            name: 'realname',
+            dealItem:function(row){
+            	return row.realname || "";
+            }
+        }, {
+            display: '团长手机号',
+            name: 'mobile',
+            dealItem:function(row){
+            	return row.mobile || "";
+            }
+        }, {
+            display: '注册时间',
+            name: 'addtime'
+        }, {
+            display: '操作',
+            icon: 'fa fa-cog',
+            width: '80px',
+            name: 'dealtools'
+        }]
+    });
+}
+</script>
+{/block}

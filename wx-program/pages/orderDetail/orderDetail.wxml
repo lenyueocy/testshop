@@ -1,0 +1,78 @@
+<view class='list'>
+    <view class='color-blue'>订单状态：{{order.status>0?statusTitle[order.status]:'已取消'}} {{order.refundstate==1?' 已退款':''}}</view>
+    <view>订单编号：{{order.orderno}}</view>
+    <view style="color:red" wx:if="{{statusTitle[order.status] == '未支付'}}">剩余{{mm}}分钟{{ss}}秒该订单自动关闭</view>
+</view>
+<view class='list'>
+    <view>联系方式：  {{order.name}}  {{order.mobile}}</view>
+    <view>取货地址：{{order.address}}</view>
+</view>
+<view class='item'>
+    <block wx:for="{{guds}}" wx:for-item="goods" wx:key="key">
+        <view class='ui-cell second'>
+            <view class='item-img'>
+                <image class='img_100' src='{{goods.image}}?imageView2/2/w/186/h/124'></image>
+            </view>
+            <view class='ui-primary'>
+                <view class='ui-nowrap-2'>{{goods.title}}</view>
+                <view class='color-r'>￥{{goods.price}}</view>
+                <view class='item-num'>X{{goods.num}}</view>
+            </view>
+        </view>
+    </block>
+    <view class='ui-cell third'>
+        <view class='ui-primary'>商品总额：</view>
+        <view>
+            ￥<text style="color:red">{{order.goodsfee}}</text>
+        </view>
+    </view>
+    <view class='ui-cell third'>
+        <view class='ui-primary'>消耗积分：</view>
+        <view>
+            <text style="color:red;">{{order.downpoint}}</text>
+        </view>
+    </view>
+    <view class='ui-cell third'>
+        <view class='ui-primary'>抵扣金额：</view>
+        <view>
+            <text style="color:red；">￥{{order.couponfee}}</text>
+        </view>
+    </view>
+    <view class='ui-cell third'>
+        <view class='ui-primary'>下单时间：</view>
+        <view>{{order.addtime}}</view>
+    </view>
+    <view class='ui-cell third'>
+        <view class='ui-primary'>实付金额：</view>
+        <view>
+            ￥<text class='color-r'>{{order.orderfee}}</text>
+        </view>
+    </view>
+    <view class='ui-cell fouth'>
+        <!-- <block wx:if="{{order.status != 2 && order.status != 3}}" >
+        <view class='del' bindtap="delOrder">
+            <image class='img_100' src='/image/del.png'></image>
+        </view>
+        </block> -->
+        <view class='ui-primary'></view>
+        <block wx:if="{{order.status == 1}}">
+            <view style="background-color:#FF9E9E;margin-right:30rpx;"  class='btn' bindtap="cancelOrder">取消订单</view>
+        </block>
+        <block wx:if="{{order.status == 1}}">
+            <view class='btn' bindtap="orderPay">立即支付</view>
+        </block>
+        <block wx:elif="{{order.status == 2 ||order.status == 3 || order.status == 4|| order.status == 5}}">
+             <view style="background-color:#FF9E9E" class='btn' bindtap="applyDrawback">申请退款</view>
+        </block>
+        <!-- <block wx:elif="{{order.status == 3}}">
+            <view class='btn' bindtap="sureRecieve">确认收货</view>
+        </block> -->
+        <block wx:else>
+            <!-- <view class='btn'>已完成</view> -->
+        </block>
+    </view>
+</view>
+<view class='list'>
+    如有疑问,请联系团长 <text data-tel="{{address.mobile}}" class='head-num' catchtap='callPhone'>{{address.mobile}}</text>
+</view>
+<navigator open-type="switchTab" url="/pages/index/index" class='toIndex'>回首页逛逛</navigator>

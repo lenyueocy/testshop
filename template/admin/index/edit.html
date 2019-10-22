@@ -1,0 +1,43 @@
+{extend name="/layout" /} {block name="main"}
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin my-layout-admin">
+		{:$html->formBegin($detail['id'])}
+		<div class="layui-body" style="top: 0;">
+			<div class="layui-tab">
+				<ul class="layui-tab-title">
+					<li class="layui-this">基本信息</li>
+				</ul>
+				<div class="layui-tab-content">
+					<div class="layui-tab-item layui-show">
+						{:$html->input([
+							'label'=>'用户名', 
+							'lay-verify'=>'required', 
+							'name'=>'username',
+							'value'=>$detail['username'] 
+						])} 
+						{:$html->input([ 
+							'label'=>'昵称',
+							'lay-verify'=>'required', 
+							'name'=>'nickname',
+							'value'=>$detail['nickname'] 
+						])} 
+						{:$html->input([
+							'label'=>'密码',
+							'name'=>'password',
+							'lay-verify'=>'required', 
+							'ext'=>'type="password"' 
+						])} 
+						{:$html->radio([
+							'label'=>'性别', 
+							'name'=>'sex', 
+							'options'=>[1=>'男',2=>'女'],
+							'value'=>$detail['sex'] 
+						])}
+					</div>
+				</div>
+			</div>
+		</div>
+		{:$html->formEnd(url('index/edit'))}
+	</div>
+</body>
+{/block}

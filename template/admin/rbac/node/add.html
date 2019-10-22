@@ -1,0 +1,83 @@
+{extend name="/layout" /} {block name="main"}
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin my-layout-admin">
+		{:$html->formBegin()}
+			<input type="hidden" name="parentid" value="{$Think.get.pid}">
+			<input type="hidden" name="type" value="{$parent ? $parent['type'] +1 : 1}">
+			<div class="layui-body" style="top: 0;">
+				<div class="layui-tab">
+					<ul class="layui-tab-title">
+						<li class="layui-this">基本信息</li>
+					</ul>
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show">
+							{notempty name="parent"}
+								{:$html->input([
+									'label'=>'父节点',
+									'lay-verify'=>'required',
+									'ext'=>'disabled',
+									'name'=>'parent_node',
+									'value'=>$parent['title']
+								])}
+							{/notempty}
+							
+							{:$html->input([
+								'label'=>'节点标题',
+								'lay-verify'=>'required',
+								'name'=>'title',
+							])}
+							
+							{notempty name="parent"}
+							    {:$html->select([
+							        'name'=>'controller',
+							        'lay-verify'=>'required',
+							        'label'=>'节点控制器',
+							        'options'=>$ctrls,
+							    ],1,1)}
+							    {:$html->select([
+							        'name'=>'action',
+							        'lay-verify'=>'required',
+							        'label'=>'节点操作',
+							    ])}
+						    {/notempty}
+						    
+							{:$html->input([
+								'label'=>'排序',
+								'lay-verify'=>'required|number',
+								'name'=>'sort',
+								'value'=>''
+							])}
+						</div>
+					</div>
+				</div>
+			</div>
+			{:$html->formEnd(url($ctrl."/".$action."_add"),'sub-form')}
+	</div>
+</body>
+<script>
+	var classAction = {:json_encode($classAction)};
+	window.recall = function() {
+		form.on('select(controller)', function(data) {
+			var actions = [];
+			if(classAction[data.value]){
+				actions = classAction[data.value];
+			}
+			var html = '<option value="">请选择节点操作</option>';
+			$.map(actions, function(item, index) {
+				html += '<option value="'+item+'">' + item + '</option>';
+			});
+			$("#layinput-action").html(html);
+			form.render('select');
+		});
+		form.on('submit(sub-form)', function(data) {
+			tools.ajax('{:url($ctrl."/".$action."_add")}',data.field,function(){
+				layer.success('添加成功');
+		        setTimeout(function(){
+		            tools.adminClose();
+					parent.window.pageTool.refresh();
+		        },1500);
+			});
+		});
+	}
+</script>
+{/block}

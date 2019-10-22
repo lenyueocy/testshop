@@ -1,0 +1,156 @@
+page {
+    background-color: #f7f7f7;
+    padding-bottom: 150rpx;
+}
+
+.box {
+    background-color: #f7f7f7;
+    padding-bottom: 20rpx;
+}
+.box .second:first-of-type{
+  border:none;
+}
+.first{
+  margin-top: 20rpx;
+  background-color: #fff;
+  padding: 0;
+}
+.first .orderMes:last-of-type{
+  border: 0;
+  margin-bottom: 20rpx;
+}
+.second {
+    padding: 30rpx 20rpx;
+    background-color: #fff;
+    border-top: .5rpx solid #D9D9D9;
+}
+.orderMes{
+  font-size: 40rpx;
+  width:100%;
+  height: 81rpx;
+  line-height: 81rpx;
+  padding: 0 20rpx;
+  border-bottom: .5rpx solid #D9D9D9;
+  overflow: hidden;
+}
+.orderdes{
+  float: left;
+  color: #333;
+  overflow: hidden；
+}
+.ordernum{
+  float:right;
+  text-align: right;
+  color: red;
+  font-size: 35rpx;
+  font-weight: bold;
+  line-height: 90rpx;
+  overflow: hidden；
+}
+
+.list{
+  margin-top: 5rpx;
+  padding: 0;
+  border-radius: 10rpx;
+  overflow: hidden;
+  border: 2rpx solid #009a8c;
+}
+
+.list>view:first-of-type {
+    margin-right: 20rpx;
+    background-color: #009a8c;
+    color: #fff;
+    text-align: right;
+    height: 70rpx;
+    line-height: 70rpx;
+    padding-left: 10rpx;
+    width: 155rpx;
+}
+
+.list>view:last-of-type input {
+    /* background-color: #F3F3F3; */
+    color: #F2015E;
+    padding: 0rpx 10rpx;
+    border-radius: 5rpx;
+    height: 70rpx;
+}
+.item-img {
+    width: 220rpx;
+    height: 146rpx;
+    margin-right: 20rpx;
+}
+
+.second .color-r {
+    margin-top: 40rpx;
+}
+
+.colonel view{
+  color: #333;
+  margin-top: 15rpx;
+  margin-left: 5rpx;
+  /* box-sizing: border-box; */
+}
+.item-num {
+    position: absolute;
+    bottom: 30rpx;
+    right: 20rpx;
+    font-size: 24rpx;
+    color: #999999;
+}
+
+.top {
+    background-color: #FDF36D;
+    padding: 25rpx;
+}
+
+.addr-img {
+    width: 40rpx;
+    height: 40rpx;
+    margin-right: 20rpx;
+}
+
+.list-top {
+    padding: 25rpx;
+    color: #999999;
+    font-size: 28rpx;
+}
+
+
+
+.list textarea {
+    box-sizing: border-box;
+    height: 200rpx;
+    background-color: #F3F3F3;
+    padding: 15rpx 25rpx;
+    border-radius: 5rpx;
+    width: 100%;
+}
+
+.bottom-box {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #FFFFFF;
+    padding: 0;
+    z-index: 10;
+}
+
+.bottom-box view,
+.bottom-box button {
+    flex: 1;
+    text-align: center;
+    padding: 0;
+}
+
+.bottom-box view:first-of-type {
+    color: #FF3B06;
+}
+
+.bottom-box button {
+    background-color:#F2015E;
+    color: #EAFFFF;
+    border-radius: 0;
+    border: none;
+    z-index: 99999;
+}

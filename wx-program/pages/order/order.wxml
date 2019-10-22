@@ -1,0 +1,90 @@
+<!-- 顶部tab切换 -->
+<view class='tab'>
+  <view class="tabList" style="position:relative;right:{{ballRight}}rpx;" bindtouchmove="ballMoveEvent">
+  <!-- <view class="tabList" style="position:relative;right:{{ballRight}}rpx;">  -->
+    <block wx:for="{{tabItem}}" wx:for-item="tab" wx:for-index="inc" wx:key="key">
+        <view class='{{inc == current ? "active" : ""}}' bindtap="tabTitleClick" data-inc="{{inc}}">
+            <text>{{tab}}</text>
+        </view>
+    </block>
+  </view>
+</view>
+
+	<view class='search-box'>
+		<input type='search' placeholder='请输入订单号' confirm-type="search" bindinput="searchValueInput" bindconfirm="bindConfirm" value="{{searchValue}}"></input>
+    <image class="searchImg" src='/image/search_1.png' bindtap="bindConfirm"></image>
+	</view>
+<!-- 列表开始 -->
+<swiper class='list' style="height:{{screenHeight?screenHeight:500}}px;" bindchange="changeTab" current="{{current}}">
+    <block wx:for="{{tabItem}}" wx:for-item="tab" wx:for-index="inc" wx:key="key">
+        <swiper-item style="overflow:auto;">
+
+            <block wx:if="{{orderList[inc]=='' || searchResult ==''}}">
+              <view class='empty_wrap'>
+                <image class='img_no' src='/image/norder.png'></image>
+              </view>
+              <!-- <view class='dat_no'>  暂无订单   </view> -->
+            </block>               
+         
+            <block wx:for="{{orderList[inc]}}" wx:for-item="item" wx:for-index="inc1" wx:key="k">
+                <!-- <view class='empty_wrap' wx:if="{{orderList[inc]=='' || searchResult ==''}}">
+                     <image class='img_no' src='/image/norder.png'></image>
+                </view> -->
+                <view class="item item-{{inc}}" >
+                    <view>
+                        <view class='ui-cell first '>
+                            <view class='ui-primary' bindtap="copyTBL" data-taokouling="{{item.order.orderno}}">订单号：{{item.order.orderno}}</view>
+                            <view class='color-r'>{{statusTitle[item.order.status]}}{{item.order.status==-1?'已取消':''}}{{item.order.refundstate==1?' 已退款':''}}</view>
+                           
+                        </view>
+                        <block wx:for="{{item.guds}}" wx:for-item="guds" wx:key="ke">
+                            <view class='ui-cell second'  bindtap="toOrderDetail"  data-inc="{{inc1}}">
+                                <view class='item-img'>
+                                    <image class='img_100' src='{{guds.image}}?imageView2/2/w/186/h/124'></image>
+                                </view>
+                                <view class='ui-primary'>
+                                    <view class='ui-nowrap-2'>{{guds.title}}</view>
+                                    <view class='color-r'>￥{{guds.price}}</view>
+                                    <view class='item-num'>X{{guds.num}}</view>
+                                </view>
+                            </view>
+                        </block>
+                           <view class='ui-cell third'>
+                            <view class='ui-primary'>下单时间</view>
+                            <view><text class='color-r'>{{item.order.addtime}}</text>
+                            </view>
+                        </view>
+                        <view class='ui-cell third'>
+                            <view class='ui-primary'>共 <text class='color-r'> {{item.order.goodsnum}} </text>件,总计：<text class='color-r'>￥{{item.order.orderfee}}</text>
+                            </view>
+
+                            <view class='btn' style="background-color:#FF9E9E" bindtap="cancelOrder" data-inc="{{inc1}}" wx:if="{{item.order.status == 1}}">取消订单</view>
+                             <view class='btn' style="background-color:#FF9E9E" bindtap="applyDrawback" data-inc="{{inc1}}" wx:if="{{item.order.status == 2 ||item.order.status == 3 ||item.order.status == 4 || item.order.status ==5 }}">申请退款</view>
+                            <!-- <view class='ui-primary'></view> -->
+                            <block wx:if="{{item.order.status == 1}}">
+                                <view class='btn' bindtap="orderPay" data-inc="{{inc1}}">去支付</view>
+                            </block>
+                        
+                            <block wx:elif="{{item.order.status == 2}}">
+                                <!-- <view class='btn'>待发货</view> -->
+                            </block>
+                            <block wx:elif="{{item.order.status == 3}}">
+                                <!-- <view class='btn'>已发货</view> -->
+                            </block>
+                            <!-- <block wx:elif="{{item.order.status == 4}}">
+                                <view class='btn' bindtap="sureRecieve" data-inc="{{index}}">确认收货</view>
+                            </block> -->
+                            <block wx:elif="{{item.order.status == 5}}">
+                                <!-- <view class='btn'>已完成</view> -->
+                            </block>
+                                
+                            <!-- <block>
+                              <view class='btn' bindtap="toOrderDetail" data-inc="{{index}}">订单详情</view>
+                            </block> -->
+                        </view>
+                    </view>
+                </view>
+            </block>
+        </swiper-item>
+    </block>
+</swiper>

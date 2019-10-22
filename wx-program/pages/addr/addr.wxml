@@ -1,0 +1,57 @@
+<view class='all'>
+<view class='positionbox'>
+   <view class=''>您所处的位置：{{address.title}}</view>
+    <view>{{address.address}} {{address.ext}}</view>
+</view>
+<view class='command'>为您推荐附近提货点</view>
+<view class='list'>
+    <block wx:for="{{areaList}}" wx:for-item="area" wx:for-index="inc" wx:key="key">
+       <view class='items' bindtap='switchArea'  data-inc="{{inc}}">
+        <view class='items_left'>
+          <view class='items_top'>
+             <view>{{area.title}}</view>
+             <view class='items_tr flex_base'>
+                 <image  src='/image/addr.png'></image>
+                  <view>距离您{{area.distance}}</view>
+             </view>
+           </view>
+           <view class='addr'>{{area.address}}</view>
+        </view>
+       </view>
+    </block>
+</view>
+</view>
+<!--<view>-->
+    <!--&lt;!&ndash; 循环此处列表 &ndash;&gt;-->
+   <!--<view class='ui-cell item' >-->
+        <!--<view class='addr-img ui-cell-lt'>-->
+            <!--<image class='img_100' src='/image/addr1.png'></image>-->
+        <!--</view>-->
+        <!--<view>您当前位置：</view>-->
+        <!--<view class='ui-primary info'>-->
+            <!--<view>{{address.title}}</view>-->
+            <!--<view>{{address.address}} {{address.ext}}</view>-->
+        <!--</view>-->
+    <!--</view>-->
+<!--</view>-->
+<!--<view class='list'>-->
+    <!--<block wx:for="{{areaList}}" wx:for-item="area" wx:for-index="inc" wx:key="key">-->
+        <!--<view  class='ui-cell item' bindtap='switchArea'  data-inc="{{inc}}">-->
+            <!--<view class='ui-primary'>-->
+                <!--<view class="goodsTitle">-->
+                    <!--<view class='ui-nowrap-2'>{{area.realname}}</view>-->
+                <!--</view>-->
+                <!--<view class="goodsTitle">-->
+                    <!--<view class='ui-nowrap-2'>距离您{{area.distance}}</view>-->
+                <!--</view>-->
+                <!--<view class='ui-primary info'>-->
+                    <!--<view class='price'>{{area.title}}</view>-->
+                    <!--<view class='price'>{{area.address}}</view>-->
+                <!--</view>-->
+            <!--</view>-->
+            <!--<view class='icon-img'>-->
+                <!--<image class='img_100' src='/image/right.png'></image>-->
+            <!--</view>-->
+        <!--</view>-->
+    <!--</block>-->
+<!--</view>-->

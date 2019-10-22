@@ -1,0 +1,102 @@
+{extend name="/layout" /} 
+{block name="main"}
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin my-layout-admin">
+		<div class="layui-header">
+			<form class="layui-form top-search-form" action="" onsubmit="return false;">
+		        <div class="layui-form-pane">
+		        	<div class="layui-form-item">
+		                <div class="layui-input-inline">
+		                    <input type="text" name="keyword" placeholder="请输入昵称搜索" autocomplete="off" class="layui-input">
+		                </div>
+		                <div class="layui-input-inline" style="width:40px">
+		                    <button class="layui-btn layui-btn-sm" lay-submit lay-filter="form-search">
+		                        <i class="fa fa-search"></i></button>
+		                </div>
+		                <div class="layui-input-inline" style="width:40px">
+		                    <a class="layui-btn layui-btn-sm" href="">
+		                        <i class="fa fa-refresh"></i>
+		                    </a>
+		                </div>
+		            </div>
+
+		        </div>
+		    </form>
+		</div>
+		<div class="layui-body" id="table-box"></div>
+		<div class="layui-footer" id="page-box"></div>
+	</div>
+</body>
+<script>
+window.recall=function(){
+    //监听提交
+    form.on('submit(form-search)', function(data) {
+        var field = data.field;
+        var searchWhere = {};
+
+        if (field.keyword) {
+            searchWhere['nickname'] = ['like', '%' + field.keyword + '%'];
+        }
+        adminTable.search(searchWhere);
+        return false;
+    });
+
+
+    tools.table({
+        jsonUrl: "{:url($ctrl.'/'.$action.'_point')}",
+        getWhere:function(){
+            var wh = {};
+
+			return wh;
+        },
+        dealParam: {
+        	{if condition="$rbac->check($ctrl.'/'.$action.'_pointlog')"}
+            upgrade: {
+                name: "详情",
+                icon: "fa fa-rss",
+                callback: function(row) {
+                	tools.adminShow('积分记录',"{:url($ctrl.'/'.$action.'_pointlog')}?id=" + row.id);
+                }
+            },
+        	{/if}
+            {if condition="$rbac->check($ctrl.'/'.$action.'_pointedit')"}
+            change: {
+                name: "修改",
+                icon: "fa fa-edit",
+                callback: function(row) {
+                    tools.adminShow('修改积分',"{:url($ctrl.'/'.$action.'_pointedit')}?id="+row.id);
+                }
+            }
+            {/if}
+        },
+        colModel: [{
+            display: 'ID',
+            name: 'id',
+            dealItem:function(row){
+                return row.id;
+            }
+            } ,{
+            display: '昵称',
+            name: 'nickname',
+            dealItem:function(row){
+            	return row.nickname;
+            }
+        },{
+            display: '用户积分',
+            name: 'total',
+            dealItem:function(row){
+            	return row.total || 0;
+            }
+        }, {
+            display: '领取时间',
+            name: 'datetime'
+        }, {
+            display: '操作',
+            icon: 'fa fa-cog',
+            width: '80px',
+            name: 'dealtools'
+        }]
+    });
+}
+</script>
+{/block}

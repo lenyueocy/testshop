@@ -3,7 +3,7 @@ namespace Constants;
 
 class SiteConst
 {    
-    const ADMIN_SITE_TITLE = '一号果仓在线商城后台系统';
+    const ADMIN_SITE_TITLE = '商城后台系统';
     
     //常用的
     const YES_VALUE = 1;

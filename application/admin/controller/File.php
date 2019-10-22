@@ -122,8 +122,10 @@ class File extends Common
         }
         $this->assign('groups',$groups);
         $this->assign('action',isset($this->input['action']) ? $this->input['action'] : 0);
+
         $upload = new \QiniuSdk\Qiniu();
         $opt = $upload->getOpt();
+
         $this->assign('qiniu',$opt);
 
         return $this->fetch();

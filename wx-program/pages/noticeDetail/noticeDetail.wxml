@@ -1,5 +1,0 @@
-<view class='box'>
-  <view>{{notice.title}}</view>
-  <view>{{notice.timeStr}}</view>
-  <text>{{notice.content}}</text>
-</view>

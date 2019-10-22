@@ -140,23 +140,24 @@ class Index extends Common
         }
         if($err==''){
             //本地上传
-//             $fileInfo=pathinfo($localName);
-//             $extension=$fileInfo['extension'];
+             $fileInfo=pathinfo($localName);
+             $extension=$fileInfo['extension'];
             
-//             $fileName = $name.'.'.$extension;
-//             $targetName = $root.$tempPath.$fileName;
+             $fileName = $name.'.'.$extension;
+             $targetName = $root.$tempPath.$fileName;
             
-//             rename($tempfile,$targetName);
-//             @chmod($targetName,0755);
-//             $msg = ['url'=>'http://'.$_SERVER['HTTP_HOST'].$tempPath.$fileName,'localname'=>$localName,'id'=>rand(0, 99999)];
-//             @unlink($tempfile);
+             rename($tempfile,$targetName);
+             @chmod($targetName,0755);
+             $msg = ['url'=>'http://'.$_SERVER['HTTP_HOST'].$tempPath.$fileName,'localname'=>$localName,'id'=>rand(0, 99999)];
+             @unlink($tempfile);
             
             //七牛上传
-            $init = \QiniuSdk\Qiniu::init();
+            /*$init = \QiniuSdk\Qiniu::init();
             $re = $init->uploadFile($tempfile);
             $msg = ['url'=>$init::getDomain().$re['key'],'localname'=>$localName,'id'=>rand(0, 99999)];
-            @unlink($tempfile);
-        }//config('qiniuConfig.domain')
+            @unlink($tempfile);*/
+            //config('qiniuConfig.domain')
+        }
         $re = ['err'=>$err,'msg'=>$msg];
         $this->ajaxMsg($re);
     }

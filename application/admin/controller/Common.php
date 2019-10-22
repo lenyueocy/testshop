@@ -45,7 +45,7 @@ class Common extends Controller{
         $this->isAjax = $request->isAjax() || $request->isPost();
         
         if($request->isGet()){
-            $this->assign('imageUrl',Qiniu::getDomain());
+            $this->assign('imageUrl','');
             $this->assign('html',new Html());
             $this->assign('siteTitle',SiteConst::ADMIN_SITE_TITLE);
         }

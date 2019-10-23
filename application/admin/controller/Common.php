@@ -80,7 +80,25 @@ class Common extends Controller{
     protected function tb($table){
         return Db::table($table);
     }
-    
+    /**
+     * 返回json数据
+     * @author: Leny
+     * @date: 2019/01/01 00:00:00
+     */
+    public function _return($status,$info = '',$data = []){
+        header('Content-Type:application/json;charset=UTF-8;');
+        $return = ['status'=>$status,'info'=>$info,'data'=>$data];
+        echo json_encode($return,JSON_UNESCAPED_UNICODE);die;
+    }
+    /**
+     * 获取table名
+     * @author: Leny
+     * @date: 2019/01/01 00:00:00
+     */
+    public function table($name){
+        return Db::table("sp_".$name);
+    }
+
     /**
      * 返回json
      * @param unknown $data

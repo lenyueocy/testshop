@@ -7,7 +7,7 @@ class Html
 {
     private $categoryHtml = '';
     
-    public function category($category,$select = true) {
+    /*public function category($category,$select = true) {
         $this->categoryHtml = '';
         if ($select === true) {
             $this->categoryHtml = '<select name="categoryid" class="layui-input" lay-search><option  value="0">全部商品</option>';
@@ -17,16 +17,16 @@ class Html
         }
         $this->categoryCell($category);
         return $this->categoryHtml;
-    }
-    
-    private function categorySelect($category,$pid=0){
+    }*/
+
+    /*private function categorySelect($category,$pid=0){
         foreach ($category as $cate) {
             if ($cate['parentid'] == $pid) {
                 $this->categoryHtml .= '<option value="'.$cate['id'].'">'.$this->levelNbsp($cate['level']).$cate['title'].'</option>';
                 $this->categorySelect($category,$cate['id']);
             }
         }
-    }
+    }*/
     
     private function categoryCell($category,$pid=0) {
         foreach ($category as $cate) {

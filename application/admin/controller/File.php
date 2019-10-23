@@ -154,8 +154,28 @@ class File extends Common
         $return = $this->doAdd(TBS::FILE_GROUP, $data);
         $this->ajaxMsg($return);
     }
+
+    /**
+     * ajax上传图片
+     * @author: Leny
+     * @date: 2019/01/01 00:00:00
+     */
+    public function ajaxUploadImage(){
+        $file =request()->file("file");
+        $uploadDir = ROOT_PATH.'/uploads/images/';
+        $info = $file->validate(['ext'=>'jpeg,jpg,png,gif'])->move($uploadDir);
+        if($info){
+            $imgUrl = "/public/uploads/images/" . $info->getSaveName();
+            die(json_encode(['status'=>1,'info'=>'上传图片成功','data'=>['url'=>$imgUrl]]));
+        }else{
+            die(json_encode(['status'=>-1,'info'=>'上传图片错误']));
+        }
+    }
 }
 
+/*
+ * 暂时未知
+ * */
 function dir_create($path, $mode = 0777) {
     if(is_dir($path)) return TRUE;
     $ftp_enable = 0;

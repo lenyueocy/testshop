@@ -82,7 +82,7 @@
         var upload = layui.upload;
         var uploadInst = upload.render({
             elem: '#goods_img'
-            ,url: "{:url('file/ajaxUploadImage')}"
+            ,url: "{:url('goods/ajaxUploadImage')}"
             ,done: function(res){
                 this.elem.prev().val(res.data.url)
                 layer.msg("上传图片成功");

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:58:"E:\workspace\testshop\template\admin\goods\goods\list.html";i:1571711878;s:48:"E:\workspace\testshop\template\admin\layout.html";i:1571710914;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:58:"E:\workspace\testshop\template\admin\goods\goods\list.html";i:1571802762;s:48:"E:\workspace\testshop\template\admin\layout.html";i:1571710914;}*/ ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -178,7 +178,7 @@ window.recall = function(){
                 callback: function(row) {
 
                 console.log(row);
-                	tools.delItem("<?php echo url($ctrl.'/'.$action.'_del'); ?>",[row.id],'用户');
+                	tools.delItem("<?php echo url($ctrl.'/'.$action.'_del'); ?>",[row.id],'商品');
                 }
             },
             <?php endif; ?>

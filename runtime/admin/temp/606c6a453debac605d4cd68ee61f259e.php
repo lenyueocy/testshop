@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:58:"E:\workspace\testshop\template\admin\order\order\list.html";i:1571715782;s:48:"E:\workspace\testshop\template\admin\layout.html";i:1571710914;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:58:"E:\workspace\testshop\template\admin\order\order\list.html";i:1571813971;s:48:"E:\workspace\testshop\template\admin\layout.html";i:1571710914;}*/ ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -170,8 +170,12 @@ window.recall=function(){
                         callback: function(row) {
                         tools.adminShow('订单备注',"<?php echo url($ctrl.'/'.$action.'_make'); ?>?id="+row.id);
                     }
-                }
+                },
                 <?php endif; ?>
+
+
+
+
 
         },
         colModel: [{

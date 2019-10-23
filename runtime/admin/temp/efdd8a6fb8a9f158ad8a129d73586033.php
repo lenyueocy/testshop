@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:58:"E:\workspace\testshop\template\admin\member\user\list.html";i:1571710914;s:48:"E:\workspace\testshop\template\admin\layout.html";i:1571710914;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:58:"E:\workspace\testshop\template\admin\member\user\list.html";i:1571817392;s:48:"E:\workspace\testshop\template\admin\layout.html";i:1571710914;}*/ ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -82,12 +82,10 @@ window.recall=function(){
     form.on('submit(form-export)', function(data) {
         var field = data.field;
         var searchWhere = {};
-       	searchWhere['a.type'] =1;
-        if("<?php echo \think\Request::instance()->get('fromid'); ?>"){
-            searchWhere['a.fromid'] = "<?php echo \think\Request::instance()->get('fromid'); ?>";
-        }
+       	searchWhere['type'] =1;
+
         if (field.keyword) {
-            searchWhere['a.nickname|a.mobile'] = ['like', '%' + field.keyword + '%'];
+            searchWhere['nickname|mobile'] = ['like', '%' + field.keyword + '%'];
         }
         tools.ajax('<?php echo url("member/user_export"); ?>',{where:searchWhere},function(res){
             var $a = $("<a>");
@@ -103,27 +101,18 @@ window.recall=function(){
     tools.table({
         jsonUrl: "<?php echo url($ctrl.'/'.$action.'_list'); ?>",
         getWhere:function(){
-        	var wh = {'a.type':1};
-        	if("<?php echo \think\Request::instance()->get('fromid'); ?>"){
-        		wh['a.fromid'] = "<?php echo \think\Request::instance()->get('fromid'); ?>";
-        	}
+        	var wh = {'type':1};
+
         	return wh;
         },
         dealParam: {
-        	<?php if($rbac->check($ctrl.'/'.$action.'_upgrade')): ?>
-            upgrade: {
-                name: "升级",
-                icon: "fa fa-rss",
-                callback: function(row) {
-                	tools.adminShow('升级用户为团长',"<?php echo url($ctrl.'/'.$action.'_upgrade'); ?>?id=" + row.id);
-                }
-            },
-        	<?php endif; if($rbac->check($ctrl.'/'.$action.'_change')): ?>
+
+            <?php if($rbac->check($ctrl.'/'.$action.'_change')): ?>
             change: {
                 name: "修改",
                 icon: "fa fa-edit",
                 callback: function(row) {
-                    tools.adminShow('修改用户团长',"<?php echo url($ctrl.'/'.$action.'_change'); ?>?id="+row.id);
+                    tools.adminShow('修改',"<?php echo url($ctrl.'/'.$action.'_change'); ?>?id="+row.id);
                 }
             }
             <?php endif; ?>
@@ -151,25 +140,7 @@ window.recall=function(){
             dealItem:function(row){
             	return row.sex == 1 ? '男' : '女';
             }
-        },{
-            display: '来源',
-            name: 'sex',
-            dealItem:function(row){
-                return '微信';
-            }
-        }, {
-            display: '团长姓名',
-            name: 'realname',
-            dealItem:function(row){
-            	return row.realname || "";
-            }
-        }, {
-            display: '团长手机号',
-            name: 'mobile',
-            dealItem:function(row){
-            	return row.mobile || "";
-            }
-        }, {
+        },  {
             display: '注册时间',
             name: 'addtime'
         }, {

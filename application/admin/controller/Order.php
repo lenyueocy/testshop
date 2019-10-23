@@ -5,8 +5,14 @@ use Constants\TBS;
 use ExportExcel\ExportOrder;
 use Constants\SiteConst;
 use Logic\OrderLogic;
+use Model\OrderModel;
 class Order extends Common
 {
+
+    /**
+     * 订单列表
+     *
+     */
     public function order_list() {
         if ($this->isAjax) {
             $data = $this->input;
@@ -40,7 +46,10 @@ class Order extends Common
         
         return $this->fetch('order/order/list');
     }
-    
+    /**
+     * 订单详情
+     *
+     */
     public function order_detail() {
         $detail = $this->detail(TBS::ORDER);
         $this->assign('detail',$detail);
@@ -63,7 +72,10 @@ class Order extends Common
         return $this->fetch('order/order/detail');
         
     }
-    
+    /**
+     * 订单发货
+     *
+     */
     public function order_send() {
         //判断订单是不是都可以发货
         $dataIds = $this->input['dataId'];
@@ -95,8 +107,9 @@ class Order extends Common
         $this->ajaxMsg($return);
     }
 
-    /*
+    /**
      * 订单备注
+     *
      */
     public function order_make(){
         if ($this->isAjax) {
@@ -109,8 +122,9 @@ class Order extends Common
         return $this->fetch('order/order/make');
     }
 
-    /*
+    /**
      * 订单导出
+     *
      */
     public function order_export() {
         $where = isset($this->input['where']) ? $this->input['where'] : [];
@@ -125,25 +139,6 @@ class Order extends Common
         if (empty($order)) {
             $this->errorMsg('没有可导出结果');
         }
-        /*$orderStatus = [
-            '-1'=>'已取消',
-            1=>'待付款',
-            2=>'待发货',
-            3=>'已发货',
-            4=>'已完成',
-            5=>'已完成',
-        ];
-        $refundStatus = [
-            '0'=>'',
-            1=>'-已退款',
-        ];
-        foreach ($order as $key=>$ord) {
-            $ord['status'] = $orderStatus[$ord['status']].$refundStatus[$ord['refundstate']];
-            $order[$key] = $ord;
-        }*/
-
-       /* $export = new ExportOrder();
-        $this->successMsg($export->exportNew($order));*/
 
 
         $orderIdArr = array_column($order, 'id');

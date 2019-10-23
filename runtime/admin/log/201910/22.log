@@ -1,0 +1,12 @@
+---------------------------------------------------------------
+[ 2019-10-22T11:38:08+08:00 ] 127.0.0.1 GET /admin.php/order/order_list.html
+[ info ] www.test.com/admin.php/order/order_list.html [运行时间：0.551031s][吞吐率：1.81req/s] [内存消耗：2,407.13kb] [文件加载：64]
+[ error ] [8]未定义变量: admin[E:\workspace\testshop\runtime\admin\temp\606c6a453debac605d4cd68ee61f259e.php:145]
+---------------------------------------------------------------
+[ 2019-10-22T11:50:20+08:00 ] 127.0.0.1 POST /admin.php/order/order_list.html
+[ info ] www.test.com/admin.php/order/order_list.html [运行时间：0.205011s][吞吐率：4.88req/s] [内存消耗：2,250.71kb] [文件加载：61]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'a.groupername' in 'field list'[E:\workspace\testshop\thinkphp\library\think\db\Connection.php:389]
+---------------------------------------------------------------
+[ 2019-10-22T11:53:43+08:00 ] 127.0.0.1 POST /admin.php/order/order_list.html
+[ info ] www.test.com/admin.php/order/order_list.html [运行时间：0.495028s][吞吐率：2.02req/s] [内存消耗：2,250.71kb] [文件加载：61]
+[ error ] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'a.groupername' in 'field list'[E:\workspace\testshop\thinkphp\library\think\db\Connection.php:389]

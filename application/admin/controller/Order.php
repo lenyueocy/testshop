@@ -16,7 +16,7 @@ class Order extends Common
             $sqlObj = $this->tb(TBS::ORDER)
                 ->alias('a')
                 ->join(TBS::USER.' b','a.userid=b.id','left')
-                ->field('b.nickname,b.headpic,a.id,a.orderno,a.orderfee,a.status,a.addtime,a.groupername,a.groupermobile,a.grouparea,a.name,a.mobile,a.address,a.refundstate,a.comm_mark')
+                ->field('b.nickname,b.headpic,a.id,a.orderno,a.orderfee,a.status,a.addtime,a.name,a.mobile,a.address,a.refundstate,a.comm_mark')
                 ->where($this->input['where'])
                 ->order('a.id desc')->page($data['p'],$data['num'])
                 ->select();
@@ -32,9 +32,6 @@ class Order extends Common
             ];
             $this->ajaxMsg($return);
         }
-        //查询管理员信息
-        $admin =  $this->tb(TBS::ADMIN_USER)->where(['id'=>session('admin-userid') ])->find();
-        $this->assign('admin',$admin);
         $groups = $this->tb(TBS::USER)
             ->where(['type'=>SiteConst::USER_TYPE_PARCHSE])
             ->field('id,realname')
@@ -112,29 +109,6 @@ class Order extends Common
         return $this->fetch('order/order/make');
     }
 
-//    /*
-//     * 后台订单退款
-//     */
-//    public function order_refund(){
-//        //判断订单是不是都可以退款
-//        $dataIds = $this->input['dataId'];
-//        if(empty($dataIds)){
-//            $return =  ['status'=>-1,'info'=>'请选择已退款的订单'];
-//            $this->ajaxMsg($return);
-//        }
-//        foreach($dataIds as $orderid){
-//            $order =  $this->tb(TBS::ORDER)->where(['id'=>$orderid])->find();
-//            if($order['status']==1){
-//                $return =  ['status'=>-1,'info'=>'订单'.$order['orderno'].'待付款，不能退款'];
-//                $this->ajaxMsg($return);
-//            }elseif($order['status']==-1){
-//                $return =  ['status'=>-1,'info'=>'订单'.$order['orderno'].'已取消，不能退款'];
-//                $this->ajaxMsg($return);
-//            }
-//        }
-//        $return =  OrderLogic::Cancel($orderid);
-//        $this->ajaxMsg($return);
-//    }
     /*
      * 订单导出
      */
@@ -143,7 +117,7 @@ class Order extends Common
         $order = $this->tb(TBS::ORDER)
                 ->alias('a')
                 ->join(TBS::USER.' b','a.userid=b.id','left')
-                ->field('b.nickname,a.id,a.orderno,a.orderfee,a.status,a.refundstate,a.addtime,a.name,a.mobile,a.address,a.groupername,a.groupermobile,a.mark')
+                ->field('b.nickname,a.id,a.orderno,a.orderfee,a.status,a.refundstate,a.addtime,a.name,a.mobile,a.address,a.mark')
                 ->order('a.id desc')
                 ->where($where)
                 ->select();

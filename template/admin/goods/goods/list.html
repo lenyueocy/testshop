@@ -151,6 +151,12 @@ window.recall = function(){
         }, ]
     });
 }
-
+function goodsSet(goodsid,field,value){
+    var data = {id:goodsid};
+    data[field] = value;
+    tools.ajax("{:url($ctrl.'/'.$action.'_set')}",data,function(){
+        adminTable.render();
+    });
+}
 </script>
 {/block}

@@ -130,8 +130,48 @@ class Goods extends Common
      * @date: 2019/01/01 00:00:00
      */
     public function goods_deal() {
-        $return = $this->doDeal(TBS::GOODS);
-        $this->ajaxMsg($return);
+        try {
+            $data = $this->input;
+            $params['status'] = $data['value'];
+
+            if(!$data['dataId']) throw new Exception('参数错误');
+            $where['id'] = ['in',$data['dataId']];
+            $this->table('goods')
+                ->strict(false)
+                ->where($where)
+                ->update($params);
+        } catch (Exception $e) {
+            $msg = $e->getMessage() ? $e->getMessage() :'服务器正忙，请稍后重试';
+            return ['status'=>-1,'info'=>$msg];
+        }
+        return ['status'=>1,'data'=>$data['dataId']];
+    }
+
+    /**
+     * 下架商品
+     * @author: Leny
+     * @date: 2019/01/01 00:00:00
+     */
+    public function goods_set() {
+        $params = $this->input;
+        try {
+            Db::startTrans();
+            $id = $params['id'];
+            unset($params['id']);
+            if(!$id){
+                throw new Exception('参数错误');
+            }
+            $result = $this->table('goods')
+                ->strict(false)
+                ->where(['id'=>$id])
+                ->update($params);
+            Db::commit();
+        } catch (Exception $e) {
+            Db::rollback();
+            $msg = $e->getMessage() ? $e->getMessage() :'服务器正忙，请稍后重试';
+            return ['status'=>-1,'info'=>$msg];
+        }
+        return ['status'=>1,'data'=>$id];
     }
 
     public function category_list()

@@ -1,5 +1,28 @@
-{extend name="/layout" /} 
-{block name="main"}
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:58:"D:\workspace\testshop\template\admin\member\user\list.html";i:1571826533;s:48:"D:\workspace\testshop\template\admin\layout.html";i:1571823436;}*/ ?>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title><?php echo $siteTitle; ?></title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<link rel="stylesheet" href="/plugins/layui/css/layui.css?v=<?php echo PROJECT_VERSION; ?>">
+		<link rel="stylesheet" href="/admin/admin.css?v=<?php echo PROJECT_VERSION; ?>" media="all">
+		<script src="/plugins/layui/layui.js?v=<?php echo PROJECT_VERSION; ?>" charset="utf-8"></script>
+		<script src="/admin/admin.js?v=<?php echo PROJECT_VERSION; ?>" charset="utf-8"></script>
+		<script src="/plugins/tablejs/tablejs.min.js?v=<?php echo PROJECT_VERSION; ?>" charset="utf-8"></script>
+		<script src="/admin/moment.js?v=<?php echo PROJECT_VERSION; ?>" charset="utf-8"></script>
+
+		<link href="/plugins/font-awesome/css/font-awesome.min.css?v=<?php echo PROJECT_VERSION; ?>" rel="stylesheet">
+		
+	</head>
+	
 <body class="layui-layout-body">
 	<div class="layui-layout layui-layout-admin my-layout-admin">
 		<div class="layui-header">
@@ -20,23 +43,22 @@
 		                </div>
 		            </div>
 					<div class="layui-btn-group layui-layout-right">
-						{if condition="$rbac->check($ctrl.'/'.$action.'_add')"}
-						<button class="layui-btn layui-btn-sm win-open" data-url="{:url($ctrl.'/'.$action.'_add')}">
+						<?php if($rbac->check($ctrl.'/'.$action.'_add')): ?>
+						<button class="layui-btn layui-btn-sm win-open" data-url="<?php echo url($ctrl.'/'.$action.'_add'); ?>">
 							<i class="fa fa-plus-circle"></i>添加
 						</button>
-						{/if}
-						{if condition="$rbac->check($ctrl.'/'.$action.'_export')"}
+						<?php endif; if($rbac->check($ctrl.'/'.$action.'_export')): ?>
 						<button class="layui-btn layui-btn-sm export-btn" lay-submit lay-filter="form-export">
 							<i class="fa fa-upload"></i>导出
 						</button>
-						{/if}
+						<?php endif; ?>
 					</div>
 					<div class="layui-btn-group layui-layout-right" style="display:none;">
-						{if condition="$rbac->check($ctrl.'/'.$action.'_upgrade')"}
-						<button class="layui-btn layui-btn-sm batch-deal-btn" data-url="{:url($ctrl.'/'.$action.'_upgrade')}" data-msg="确定要将已选中的用户升为团长吗？" data-val="2">
+						<?php if($rbac->check($ctrl.'/'.$action.'_upgrade')): ?>
+						<button class="layui-btn layui-btn-sm batch-deal-btn" data-url="<?php echo url($ctrl.'/'.$action.'_upgrade'); ?>" data-msg="确定要将已选中的用户升为团长吗？" data-val="2">
 							<i class="fa fa-rss"></i>升级
 						</button>
-						{/if}
+						<?php endif; ?>
 					</div>
 		        </div>
 		    </form>
@@ -69,7 +91,7 @@ window.recall=function(){
         if (field.keyword) {
             searchWhere['nickname|mobile'] = ['like', '%' + field.keyword + '%'];
         }
-        tools.ajax('{:url("member/user_export")}',{where:searchWhere},function(res){
+        tools.ajax('<?php echo url("member/user_export"); ?>',{where:searchWhere},function(res){
             var $a = $("<a>");
             $a.attr("href", res.file);
             $a.attr("download", res.filename);
@@ -81,7 +103,7 @@ window.recall=function(){
     });
 
     tools.table({
-        jsonUrl: "{:url($ctrl.'/'.$action.'_list')}",
+        jsonUrl: "<?php echo url($ctrl.'/'.$action.'_list'); ?>",
         getWhere:function(){
         	var wh = {'type':1};
 
@@ -89,15 +111,15 @@ window.recall=function(){
         },
         dealParam: {
 
-            {if condition="$rbac->check($ctrl.'/'.$action.'_change')"}
+            <?php if($rbac->check($ctrl.'/'.$action.'_change')): ?>
             change: {
                 name: "修改",
                 icon: "fa fa-edit",
                 callback: function(row) {
-                    tools.adminShow('修改',"{:url($ctrl.'/'.$action.'_change')}?id="+row.id);
+                    tools.adminShow('修改',"<?php echo url($ctrl.'/'.$action.'_change'); ?>?id="+row.id);
                 }
             }
-            {/if}
+            <?php endif; ?>
         },
         colModel: [{
             display: 'checkbox',
@@ -134,4 +156,5 @@ window.recall=function(){
     });
 }
 </script>
-{/block}
+
+</html>

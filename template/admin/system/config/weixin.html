@@ -1,0 +1,13 @@
+{:$html->input([
+	'label'=>'应用id',
+	'lay-verify'=>'required',
+	'name'=>'appid',
+	'value'=>isset($configs['weixin']['appid']) ? $configs['weixin']['appid'] : ''
+])}
+{:$html->input([
+	'label'=>'应用秘钥',
+	'lay-verify'=>'required',
+	'name'=>'appkey',
+	'value'=>isset($configs['weixin']['appkey']) ? $configs['weixin']['appkey'] : ''
+])}
+<input type="hidden" name="sign" value="weixin">

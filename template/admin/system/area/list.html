@@ -1,0 +1,129 @@
+{extend name="/layout" /} 
+{block name="main"}
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin my-layout-admin">
+		<div class="layui-header">
+			<form class="layui-form top-search-form" action="" onsubmit="return false;">
+		        <div class="layui-form-pane">
+		        	<div class="layui-form-item">
+		                <div class="layui-input-inline">
+		                    <input type="text" name="keyword" placeholder="请输入关键字" autocomplete="off" class="layui-input">
+		                </div>
+		                <div class="layui-input-inline" style="width:40px">
+		                    <button class="layui-btn layui-btn-sm" lay-submit lay-filter="form-search">
+		                        <i class="fa fa-search"></i></button>
+		                </div>
+		                <div class="layui-input-inline" style="width:40px">
+		                    <a class="layui-btn layui-btn-sm" href="">
+		                        <i class="fa fa-refresh"></i>
+		                    </a>
+		                </div>
+		            </div>
+					<div class="layui-btn-group layui-layout-right">
+						{if condition="$rbac->check($ctrl.'/'.$action.'_add')"}
+						<button class="layui-btn layui-btn-sm win-open" data-url="{:url($ctrl.'/'.$action.'_add')}">
+							<i class="fa fa-plus-circle"></i>添加
+						</button>
+						{/if}
+						{if condition="$rbac->check($ctrl.'/'.$action.'_deal')"}
+						<button class="layui-btn layui-btn-sm layui-btn-danger batch-deal" data-url="{:url($ctrl.'/'.$action.'_deal')}" data-title="小区" data-value="2">
+							<i class="fa fa-dot-circle-o"></i>禁用
+						</button>
+						<button class="layui-btn layui-btn-sm batch-deal" data-url="{:url($ctrl.'/'.$action.'_deal')}" data-title="小区" data-value="1">
+							<i class="fa fa-envelope-open-o"></i>启用
+						</button>
+						{/if}
+					</div>
+		        </div>
+		    </form>
+		</div>
+		<div class="layui-body" id="table-box"></div>
+		<div class="layui-footer" id="page-box"></div>
+	</div>
+</body>
+<script>
+var table = {};
+window.recall=function(){
+    //监听提交
+    form.on('submit(form-search)', function(data) {
+        var field = data.field;
+        var searchWhere = {};
+        if (field.keyword) {
+            searchWhere['title|address'] = ['like', '%' + field.keyword + '%'];
+        }
+        adminTable.search(searchWhere);
+        return false;
+    });
+
+
+    tools.table({
+        jsonUrl: "{:url($ctrl.'/'.$action.'_list')}",
+        dealParam: {
+        	{if condition="$rbac->check($ctrl.'/'.$action.'_edit')"}
+            edit: {
+                name: "编辑",
+                icon: "fa fa-pencil-square",
+                callback: function(row) {
+                    tools.adminShow('编辑应用',"{:url($ctrl.'/'.$action.'_edit')}?id=" + row.id);
+                }
+            },
+            {/if}
+            {if condition="$rbac->check($ctrl.'/'.$action.'_deal')"}
+                open:{
+                	name: "启用",
+                    icon: "fa fa-envelope-open-o",
+                    dealItem:function(row){
+                    	return row.status == 2;
+                    },
+                    callback: function(row) {
+                    	tools.dealItem("{:url($ctrl.'/'.$action.'_deal')}",[row.id],1,'确定要启用该小区吗？');
+                    }
+                },
+                close:{
+                	name: "禁用",
+                    icon: "fa fa-envelope-open-o",
+                    dealItem:function(row){
+                    	return row.status == 1;
+                    },
+                    callback: function(row) {
+                    	tools.dealItem("{:url($ctrl.'/'.$action.'_deal')}",[row.id],2,'确定要禁用该小区吗？');
+                    }
+                },
+            {/if}
+        },
+        colModel: [{
+            display: 'checkbox',
+            name: 'id',
+            width: '15px'
+        }, {
+            display: '名称',
+            name: 'title'
+        }, {
+            display: '详细地址',
+            name: 'address'
+        }, {
+            display: '纬度',
+            name: 'lat'
+        }, {
+            display: '经度',
+            name: 'lng'
+        }, {
+            display: '状态',
+            name: 'status',
+            dealItem:function(row){
+            	var statusCfg = {
+            		1:'<span class="layui-badge layui-bg-green">启用</span>',
+            		2:'<span class="layui-badge">禁用</span>',
+            	}
+            	return statusCfg[row.status];
+            }
+        }, {
+            display: '操作',
+            icon: 'fa fa-cog',
+            width: '80px',
+            name: 'dealtools'
+        }]
+    });
+}
+</script>
+{/block}

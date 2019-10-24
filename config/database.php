@@ -33,7 +33,7 @@ $dbConfig = [
     'type'            => 'mysql',
     // 服务器地址
     // pdo连接参数
-    'dsn'             => 'mysql:host=192.168.8.122;port=3306;dbname=shop;charset=utf8',
+    'dsn'             => 'mysql:host=192.168.8.126;port=3306;dbname=shop;charset=utf8',
     //'hostname'        => '192.168.8.122',
     // 数据库名
     'database'        => 'shop',

@@ -93,6 +93,7 @@ class Member extends Common
                 $this->_return(1,'添加成功');
             }
             $this->_return(-1,'失败');
+            //cs
         }
 
 

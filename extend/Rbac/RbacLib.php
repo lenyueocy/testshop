@@ -81,7 +81,6 @@ class RbacLib
         }
         $nodeMod = new AdminNodeModel();
         $this->allNode = $nodeMod->selectAllNode();
-        
         if (session('admin-roleid')) {
             $rightMod = new AdminRightModel();
             $rightIds = $rightMod->getRightByRole(session('admin-roleid'));

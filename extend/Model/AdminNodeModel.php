@@ -20,6 +20,7 @@ class AdminNodeModel extends BasicModel
         return $this->getTb()
             ->field('id,title,type,parentid,sort,controller,action,1 as hasRight,LOWER(CONCAT_WS("/", `controller`, `action`)) AS uri')
             ->order('sort asc,id desc')
+            ->where(['status'=>1])
             ->select();
     }
 }

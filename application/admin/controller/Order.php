@@ -10,173 +10,100 @@ class Order extends Common
 {
 
     /**
-     * 订单列表
-     *
+     * 订单列表功能
+     * @author: Leny
+     * @date: 2019/01/01 00:00:00
      */
-    public function order_list() {
-        if ($this->isAjax) {
-            $data = $this->input;
-            $data['p'] = isset($data['p']) && $data['p'] ? $data['p'] : 1;
-            $data['num'] = isset($data['num']) && $data['num'] ? $data['num'] : 10;
-            $this->input['where']['isdel']=2;
-            $sqlObj = $this->tb(TBS::ORDER)
-                ->alias('a')
-                ->join(TBS::USER.' b','a.userid=b.id','left')
-                ->field('b.nickname,b.headpic,a.id,a.orderno,a.orderfee,a.status,a.addtime,a.name,a.mobile,a.address,a.refundstate,a.comm_mark')
-                ->where($this->input['where'])
-                ->order('a.id desc')->page($data['p'],$data['num'])
-                ->select();
-            $count = $this->tb(TBS::ORDER)
-                ->alias('a')
-                ->join(TBS::USER.' b','a.userid=b.id','left')
-                ->where($this->input['where'])->count();
-            $return = [
-                'p'=>$data['p'],
-                'num'=>$data['num'],
-                'total'=>$count,
-                'rows'=>$sqlObj
-            ];
-            $this->ajaxMsg($return);
-        }
-        $groups = $this->tb(TBS::USER)
-            ->where(['type'=>SiteConst::USER_TYPE_PARCHSE])
-            ->field('id,realname')
+    public function index(){
+        return $this->fetch('order/index');
+    }
+
+    /**
+     * 获取订单列表数据
+     * @author: Leny
+     * @date: 2019/01/01 00:00:00
+     */
+    public function getData(){
+        $page = $this->input['page'];
+        $limit = $this->input['limit'];
+        $orderData = $this->table('order')
+            ->alias('o')
+            ->field("o.id,o.orderno,o.mobile,o.create_time,o.pay_type,o.status,o.mark,u.nickname as user_name")
+            ->join("sp_user u","u.id=o.user_id",'left')
+            ->limit($page,$limit)
+            ->order('o.create_time desc')
             ->select();
-        $this->assign('groups',$groups);
-        
-        return $this->fetch('order/order/list');
+        $count = $this->table('order')
+            ->alias('o')
+            ->field("o.orderno,u.nickname")
+            ->join("sp_user u","u.id=o.user_id",'left')
+            ->count();
+        $this->_return(0,'获取数据成功',$orderData,$count);
     }
     /**
-     * 订单详情
-     *
+     * 订单编辑功能
+     * @author: Leny
+     * @date: 2019/01/01 00:00:00
      */
-    public function order_detail() {
-        $detail = $this->detail(TBS::ORDER);
-        $this->assign('detail',$detail);
-        
-        $goods = $this->tb(TBS::ORDER_GOODS)
-            ->where(['orderid'=>$this->input['id']])
-            ->select();
-        $this->assign('guds',$goods);
-        
-        $orderStatus = [
-            -1=>'<span class="layui-badge layui-bg-black">已取消</span>',
-            1=>'<span class="layui-badge layui-bg-gray">待付款</span>',
-            2=>'<span class="layui-badge">待发货</span>',
-            3=>'<span class="layui-badge layui-bg-orange">已发货</span>',
-            4=>'<span class="layui-badge layui-bg-blue">待提货</span>',
-            5=>'<span class="layui-badge layui-bg-green">已完成</span>',
-        ];
-        $this->assign('status',$orderStatus);
-        
-        return $this->fetch('order/order/detail');
-        
-    }
-    /**
-     * 订单发货
-     *
-     */
-    public function order_send() {
-        //判断订单是不是都可以发货
-        $dataIds = $this->input['dataId'];
-        if(empty($dataIds)){
-            $return =  ['status'=>-1,'info'=>'请选择已发货的订单'];
-            $this->ajaxMsg($return);
-        }
-        foreach($dataIds as $orderid){
-           $order =  $this->tb(TBS::ORDER)->where(['id'=>$orderid])->find();
-           if($order['status']==1){
-               $return =  ['status'=>-1,'info'=>'订单'.$order['orderno'].'待付款，不能发货'];
-               $this->ajaxMsg($return);
-           }elseif($order['status']==3){
-               $return =  ['status'=>-1,'info'=>'订单'.$order['orderno'].'已经发货，勿重复提交'];
-               $this->ajaxMsg($return);
-           }elseif($order['status']==4){
-               $return =  ['status'=>-1,'info'=>'订单'.$order['orderno'].'已经到达自提点，勿重复提交'];
-               $this->ajaxMsg($return);
-           }elseif($order['status']==5){
-               $return =  ['status'=>-1,'info'=>'订单'.$order['orderno'].'已经完成，勿重复提交'];
-               $this->ajaxMsg($return);
-           }elseif($order['status']==-1){
-               $return =  ['status'=>-1,'info'=>'订单'.$order['orderno'].'已取消，不能发货'];
-               $this->ajaxMsg($return);
-           }
-        }
-
-        $return = $this->doDeal(TBS::ORDER,['status'=>2]);
-        $this->ajaxMsg($return);
-    }
-
-    /**
-     * 订单备注
-     *
-     */
-    public function order_make(){
-        if ($this->isAjax) {
-            $return = $this->doUpdate(TBS::ORDER,$this->input);
-            $this->ajaxMsg($return);
-        }
-        $detail = $this->detail(TBS::ORDER);
-        $this->assign('order',$detail);
-
-        return $this->fetch('order/order/make');
-    }
-
-    /**
-     * 订单导出
-     *
-     */
-    public function order_export() {
-        $where = isset($this->input['where']) ? $this->input['where'] : [];
-        $order = $this->tb(TBS::ORDER)
-                ->alias('a')
-                ->join(TBS::USER.' b','a.userid=b.id','left')
-                ->field('b.nickname,a.id,a.orderno,a.orderfee,a.status,a.refundstate,a.addtime,a.name,a.mobile,a.address,a.mark')
-                ->order('a.id desc')
-                ->where($where)
-                ->select();
-        
-        if (empty($order)) {
-            $this->errorMsg('没有可导出结果');
-        }
-
-
-        $orderIdArr = array_column($order, 'id');
-        $orderGudsTemp = $this->tb(TBS::ORDER_GOODS)
-            ->alias('a')
-            ->join(TBS::GOODS.' b','a.goodsid=b.id','left')
-            ->field('a.title,a.orderid,b.send,a.num,a.totalprice')
-            ->where(['orderid'=>['in',$orderIdArr]])
-            ->select();
-        
-        $orderGuds = [];
-        foreach ($orderGudsTemp as $guds) {
-            if (!isset($orderGuds[$guds['orderid']])) {
-                $orderGuds[$guds['orderid']] = [];
+    public function edit(){
+        if(isset($this->input['id'])){
+            $id = $this->input['id'];
+            if($this->isAjax){
+                $updateData = [
+                    'user_id'=>$this->input['user_id'],
+                    'mobile'=>$this->input['mobile'],
+                    'pay_type'=>$this->input['pay_type'],
+                    'status'=>$this->input['status'],
+                    'mark'=>$this->input['mark'],
+                ];
+                $res = $this->table('order')->where(['id'=>$id])->update($updateData);
+                if($res){
+                    $this->_return(0,'操作成功');
+                }
+                $this->_return(-1,'操作失败');
             }
-            $orderGuds[$guds['orderid']][] = $guds;
+            $orderData = $this->table('order')
+                ->alias('o')
+                ->field("o.id,o.user_id,o.orderno,o.mobile,o.create_time,o.pay_type,o.status,o.mark,u.nickname as user_name")
+                ->join("sp_user u","u.id=o.user_id",'left')
+                ->where(['o.id'=>$id])
+                ->find();
+            $this->assign('orderData',$orderData);
+        }else{
+            if($this->isAjax){
+                $insertData = [
+                    'orderno'=>"order_".time().rand(10000,99999),
+                    'user_id'=>$this->input['user_id'],
+                    'pay_type'=>$this->input['pay_type'],
+                    'status'=>$this->input['status'],
+                    'mobile'=>$this->input['mobile'],
+                    'mark'=>$this->input['mark'],
+                    'create_time'=>time()
+                ];
+                $res = $this->table('order')->insert($insertData);
+                if($res){
+                    $this->_return(0,'操作成功');
+                }
+                $this->_return(-1,'操作失败');
+            }
         }
-        $orderStatus = [
-            '-1'=>'已取消',
-            1=>'待付款',
-            2=>'待发货',
-            3=>'已发货',
-            4=>'待自提',
-            5=>'已完成',
-        ];
-        $refundStatus = [
-            '0'=>'',
-            1=>'-已退款',
-        ];
-        
-        foreach ($order as $key=>$ord) {
-            $ord['gudsList'] = $orderGuds[$ord['id']];
-            $ord['inc'] = $key+1;
-            $ord['status'] = $orderStatus[$ord['status']].$refundStatus[$ord['refundstate']];
-            $order[$key] = $ord;
-        }
-        
-        $export = new ExportOrder();
-        $this->successMsg($export->exportTwo($order));
+        $userData = $this->table('user')->field('id,nickname')->select();
+        $this->assign('userData',$userData);
+        return $this->fetch('order/edit');
     }
+    /**
+     * 订单删除功能
+     * @author: Leny
+     * @date: 2019/01/01 00:00:00
+     */
+    public function delete(){
+        if(!isset($this->input['id'])) $this->_return(-1,'请选择你要删除的数据');
+        $id = $this->input['id'];
+        $res = $this->table('order')->where(['id'=>$id])->delete();
+        if($res){
+            $this->_return(0,'删除成功');
+        }
+        $this->_return(-1,'删除失败');
+    }
+
 }

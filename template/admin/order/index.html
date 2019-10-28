@@ -1,0 +1,112 @@
+{extend name="/layout" /}
+{block name="main"}
+<body class="layui-layout-body">
+	<div class="layui-layout layui-layout-admin my-layout-admin">
+		<div class="layui-header">
+			<form class="layui-form top-search-form" action="" onsubmit="return false;">
+		        <div class="layui-form-pane">
+					<div class="layui-form-item">订单列表</div>
+					<div class="layui-btn-group layui-layout-right">
+
+						<button class="layui-btn layui-btn-sm win-open" data-url="{:url('order/edit')}">
+							<i class="fa fa-plus-circle"></i>生成订单
+						</button>
+
+					</div>
+		        </div>
+		    </form>
+		</div>
+		<table id="table" lay-filter="table"></table>
+	</div>
+    <script type="text/html" id="tool">
+        <a class="layui-btn layui-btn-xs" lay-event="edit">修改</a>
+        <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
+    </script>
+</body>
+<script>
+    var indexTable
+    layui.use(['table'],function () {
+        indexTable = layui.table;
+        //table表格处理
+        indexTable.render({
+            elem: '#table'
+            ,url: "{:url('order/getData')}"
+            ,page: true
+            ,autoSort:false
+            ,cols: [[
+                {checkbox: true,width:"5%"}
+                ,{field: 'id', title: 'ID', width:"5%"}
+                ,{field: 'orderno', title: '订单号', width:"20%"}
+                ,{field: 'user_name', title: '用户名', width:"10%",}
+                ,{field: 'mobile', title: '手机号', width:"10%"}
+                ,{field: 'create_time', title: '创建时间', width: "10%",templet: (d)=>{
+                    return moment(d.create_time * 1000).format("YYYY-MM-DD HH:mm:ss")
+                }}
+                ,{field: 'pay_type', title: '支付方式', width: "5%",templet: (d)=> {
+                    if(d.pay_type==1) return '支付宝'
+                    if(d.pay_type==2) return '微信'
+                }}
+                ,{field: 'status', title: '订单状态', width: "5%",templet: (d)=> {
+                    switch (d.status){
+                        case 1:
+                            return "未付款"
+                        break;
+                        case 2:
+                            return "已付款"
+                        break;
+                        case 3:
+                            return "已发货"
+                        break;
+                        case 4:
+                            return "已收货"
+                        break;
+                        case 5:
+                            return "已评价"
+                        break;
+                    }
+                }}
+                ,{field: 'mark', title: '备注', width:"15%"}
+                ,{ title: '操作',align:'center',width:"15%", toolbar:"#tool"}
+            ]]
+        });
+        //监听单元格事件
+        indexTable.on('tool(table)', function(obj){
+            switch(obj.event){
+                case 'edit':
+                    let index = layer.open({
+                        title: "编辑",
+                        type: 2,
+                        content: "{:url('order/edit')}?id="+obj.data.id,
+                        area: ['320px', '195px'],
+                        maxmin: true,
+                        btn: ['关闭'],
+                    });
+                    layer.full(index);
+                    break;
+                case 'delete':
+                    layer.confirm("确定删除该数据？", function(index){
+                        layer.close(index);
+                        $.ajax({
+                            url: "{:url('order/delete')}",
+                            type: 'post',
+                            dataType: 'json',
+                            data: {id:obj.data.id},
+                            success:(res)=>{
+                                if(res.code==0){
+                                    layer.msg(res.msg)
+                                    setTimeout(()=>{window.parent.location.reload()},500)
+                                }
+                            },
+                            error:()=>{
+                                layer.msg('请求错误',()=>{})
+                            }
+                        })
+                    });
+
+                    break;
+            };
+        })
+    })
+
+</script>
+{/block}

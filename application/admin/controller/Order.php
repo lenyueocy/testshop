@@ -28,8 +28,9 @@ class Order extends Common
         $limit = $this->input['limit'];
         $orderData = $this->table('order')
             ->alias('o')
-            ->field("o.id,o.orderno,o.mobile,o.create_time,o.pay_type,o.status,o.mark,u.nickname as user_name")
+            ->field("o.id,o.orderno,o.mobile,o.create_time,o.pay_type,o.status,o.mark,u.nickname as user_name,g.goods_name")
             ->join("sp_user u","u.id=o.user_id",'left')
+            ->join("sp_goods g","g.id=o.goods_id",'left')
             ->limit($page,$limit)
             ->order('o.create_time desc')
             ->select();
@@ -49,8 +50,14 @@ class Order extends Common
         if(isset($this->input['id'])){
             $id = $this->input['id'];
             if($this->isAjax){
+                if(!isset($this->input['user_id'])) $this->_return(-1,"请选择所属用户");
+                if(!isset($this->input['goods_id'])) $this->_return(-1,"请选择商品");
+                if(!isset($this->input['mobile'])) $this->_return(-1,"请填写手机号码");
+                if(!isset($this->input['pay_type'])) $this->_return(-1,"请选择支付方式");
+                if(!isset($this->input['status'])) $this->_return(-1,"请选择订单状态");
                 $updateData = [
                     'user_id'=>$this->input['user_id'],
+                    'goods_id'=>$this->input['goods_id'],
                     'mobile'=>$this->input['mobile'],
                     'pay_type'=>$this->input['pay_type'],
                     'status'=>$this->input['status'],
@@ -64,16 +71,23 @@ class Order extends Common
             }
             $orderData = $this->table('order')
                 ->alias('o')
-                ->field("o.id,o.user_id,o.orderno,o.mobile,o.create_time,o.pay_type,o.status,o.mark,u.nickname as user_name")
+                ->field("o.id,o.user_id,o.goods_id,o.orderno,o.mobile,o.create_time,o.pay_type,o.status,o.mark,u.nickname as user_name")
                 ->join("sp_user u","u.id=o.user_id",'left')
+                ->join("sp_goods g","g.id=o.goods_id",'left')
                 ->where(['o.id'=>$id])
                 ->find();
             $this->assign('orderData',$orderData);
         }else{
             if($this->isAjax){
+                if(!isset($this->input['user_id'])) $this->_return(-1,"请选择所属用户");
+                if(!isset($this->input['goods_id'])) $this->_return(-1,"请选择商品");
+                if(!isset($this->input['mobile'])) $this->_return(-1,"请填写手机号码");
+                if(!isset($this->input['pay_type'])) $this->_return(-1,"请选择支付方式");
+                if(!isset($this->input['status'])) $this->_return(-1,"请选择订单状态");
                 $insertData = [
                     'orderno'=>"order_".time().rand(10000,99999),
                     'user_id'=>$this->input['user_id'],
+                    'goods_id'=>$this->input['goods_id'],
                     'pay_type'=>$this->input['pay_type'],
                     'status'=>$this->input['status'],
                     'mobile'=>$this->input['mobile'],
@@ -88,7 +102,9 @@ class Order extends Common
             }
         }
         $userData = $this->table('user')->field('id,nickname')->select();
+        $goodsData = $this->table('goods')->field('id,goods_name')->select();
         $this->assign('userData',$userData);
+        $this->assign('goodsData',$goodsData);
         return $this->fetch('order/edit');
     }
     /**

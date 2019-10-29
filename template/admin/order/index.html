@@ -24,11 +24,10 @@
     </script>
 </body>
 <script>
-    var indexTable
     layui.use(['table'],function () {
-        indexTable = layui.table;
+        var table = layui.table;
         //table表格处理
-        indexTable.render({
+        table.render({
             elem: '#table'
             ,url: "{:url('order/getData')}"
             ,page: true
@@ -71,7 +70,7 @@
             ]]
         });
         //监听单元格事件
-        indexTable.on('tool(table)', function(obj){
+        table.on('tool(table)', function(obj){
             switch(obj.event){
                 case 'edit':
                     let index = layer.open({

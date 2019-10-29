@@ -8,7 +8,7 @@
 					<div class="layui-form-item">用户列表</div>
 					<div class="layui-btn-group layui-layout-right">
 						{if condition="$rbac->check($ctrl.'/'.$action.'_add')"}
-						<button class="layui-btn layui-btn-sm win-open" data-url="{:url($ctrl.'/'.$action.'_add')}">
+						<button class="layui-btn layui-btn-sm win-open" data-url="{:url('member/user_add')}">
 							<i class="fa fa-plus-circle"></i>添加
 						</button>
 						{/if}
@@ -34,43 +34,16 @@ window.recall=function(){
         var field = data.field;
         var searchWhere = {};
 
-        if (field.type) {
-            searchWhere['a.type'] = field.type;
-        }
         if (field.keyword) {
             searchWhere['a.nickname|a.mobile'] = ['like', '%' + field.keyword + '%'];
         }
         adminTable.search(searchWhere);
         return false;
     });
-    form.on('submit(form-export)', function(data) {
-        var field = data.field;
-        var searchWhere = {};
-       	searchWhere['type'] =1;
-
-        if (field.keyword) {
-            searchWhere['nickname|mobile'] = ['like', '%' + field.keyword + '%'];
-        }
-        tools.ajax('{:url("member/user_export")}',{where:searchWhere},function(res){
-            var $a = $("<a>");
-            $a.attr("href", res.file);
-            $a.attr("download", res.filename);
-            $("body").append($a);
-            $a[0].click();
-            $a.remove();
-        })
-        return false;
-    });
 
     tools.table({
         jsonUrl: "{:url($ctrl.'/'.$action.'_list')}",
-        getWhere:function(){
-        	var wh = {'type':1};
-
-        	return wh;
-        },
         dealParam: {
-
             {if condition="$rbac->check($ctrl.'/'.$action.'_change')"}
             change: {
                 name: "修改",
@@ -78,8 +51,19 @@ window.recall=function(){
                 callback: function(row) {
                     tools.adminShow('修改',"{:url($ctrl.'/'.$action.'_change')}?id="+row.id);
                 }
-            }
+            },
             {/if}
+			{if condition="$rbac->check($ctrl.'/'.$action.'_del')"}
+			del:{
+				name: "删除",
+					icon: "fa fa-trash-o",
+				callback: function(row) {
+
+					console.log(row);
+					tools.delItem("{:url($ctrl.'/'.$action.'_del')}",[row.id],'用户');
+				}
+			},
+			{/if}
         },
         colModel: [{
             display: 'checkbox',
@@ -104,10 +88,16 @@ window.recall=function(){
             dealItem:function(row){
             	return row.sex == 1 ? '男' : '女';
             }
-        },  {
-            display: '注册时间',
-            name: 'addtime'
+        },   {
+            display: '地址',
+            name: 'address'
         }, {
+            display: '注册时间',
+            name: 'addtime',
+            dealItem:function(row){
+                return moment(row.addtime * 1000).format("YYYY-MM-DD HH:mm:ss");
+            }
+        },{
             display: '操作',
             icon: 'fa fa-cog',
             width: '80px',

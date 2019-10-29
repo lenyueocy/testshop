@@ -9,35 +9,46 @@
 					</ul>
 					<div class="layui-tab-content">
 						<div class="layui-tab-item layui-show">
-							{:$html->input([
-							'label'=>'昵称',
-							'lay-verify'=>'required|title',
-							'name'=>'nickname',
-							'value'=>$user.nickname
-							])}
 
-							{:$html->input([
-							'label'=>'手机号',
-							'lay-verify'=>'required|phone',
-							'name'=>'mobile',
-							'value'=>$user.mobile
-							])}
-
-			            	<div class="d-item-col">
-
-			                    <div class="d-item">
-			                        <div class="d-title">性别</div>
-			                        <div class="d-content">{$user['sex'] == 1 ? '男' : '女'}</div>
-			                    </div>
-			                    <div class="d-item">
-			                        <div class="d-title">头像</div>
-			                        <div class="d-content">
-			                        	<div class="d-image" style="height:50px;width:50px;">
-			                                <img src="{$user.headpic}">
-			                            </div>
-		                            </div>
-			                    </div>
-			                </div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">昵称</label>
+								<div class="layui-input-block">
+									<input lay-verify="required|title" name="nickname" placeholder="请输入昵称" class="layui-input" value="{$user.nickname}">
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">手机号</label>
+								<div class="layui-input-block">
+									<input lay-verify="required|phone" name="mobile" placeholder="请输入手机号" class="layui-input" value="{$user.mobile}">
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">性别</label>
+								<div class="layui-input-block">
+									<input type="radio" name="sex" value= 1 title="男" {$user['sex'] == 1 ? 'checked' : ''} >
+									<input type="radio" name="sex" value= 2 title="女" {$user['sex'] == 2 ? 'checked' : ''}>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">地址</label>
+								<div class="layui-input-block">
+									<input lay-verify="required|title" name="address" placeholder="请输入地址" class="layui-input" value="{$user.address}">
+								</div>
+							</div>
+							<div class="d-item">
+								<div class="d-title">头像</div>
+								<div class="d-content">
+									<div >
+										<input type="hidden" name="headpic" value="{$user.headpic}">
+										<button type="button" class="layui-btn" id="headpic">
+											<i class="layui-icon">&#xe67c;</i>上传图片
+										</button>
+									</div>
+									<div class="d-image" style="height:50px;width:50px;">
+										<img src="{$user.headpic}">
+									</div>
+								</div>
+							</div>
 			            </div>
 					</div>
 				</div>
@@ -45,4 +56,20 @@
 		{:$html->formEnd(url($ctrl."/".$action."_change"))}
 	</div>
 </body>
+<script type="text/javascript">
+    layui.use('upload',function () {
+        var upload = layui.upload;
+        var uploadInst = upload.render({
+            elem: '#headpic'
+            ,url: "{:url('member/ajaxUploadImage')}"
+            ,done: function(res){
+                this.elem.prev().val(res.data.url)
+                layer.msg("上传图片成功");
+            }
+            ,error: function(){
+                layer.msg("上传图片出现错误");
+            }
+        })
+    })
+</script>
 {/block}

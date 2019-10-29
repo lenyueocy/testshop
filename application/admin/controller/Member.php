@@ -17,12 +17,12 @@ class Member extends Common
             $data['p'] = isset($data['p']) && $data['p'] ? $data['p'] : 1;
             $data['num'] = isset($data['num']) && $data['num'] ? $data['num'] : 10;
             $sqlObj = $this->tb(TBS::USER)
-            ->field('id,headpic,nickname,sex,addtime,mobile as phone,realname,mobile')
+            ->field('id,headpic,nickname,sex,addtime,mobile as phone,address')
             ->where($this->input['where'])
             ->order(['id'=>'desc'])->page($data['p'],$data['num'])
                 ->select();
             $count =$this->tb(TBS::USER)
-                ->field('id,headpic,nickname,sex,addtime,realname,mobile')
+                ->field('id,headpic,nickname,sex,addtime,mobile')
                 ->where($this->input['where'])->count();
             $return = [
                 'p'=>$data['p'],
@@ -34,25 +34,7 @@ class Member extends Common
         }
         return $this->fetch('member/user/list');
     }
-    /**
-     * 导出
-     */
-    public function user_export() {
-        $where = isset($this->input['where']) ? $this->input['where'] : [];
-        $user = $this->tb(TBS::USER)
-            ->field('id,headpic,nickname,sex,addtime,mobile as phone,realname,mobile')
-            ->order('id desc')
-            ->where($where)
-            ->select();
 
-        if (empty($user)) {
-            $this->errorMsg('没有可导出结果');
-        }
-
-
-        $export = new ExportUser();
-        $this->successMsg($export->export($user));
-    }
 
     /**
      * 修改信息
@@ -69,9 +51,7 @@ class Member extends Common
     }
 
     /**
-     * @param $data
-     * @return array
-     *
+     * 添加用户
      */
     public function user_add(){
         if ($this->isAjax) {
@@ -83,40 +63,31 @@ class Member extends Common
             $insertData = [
 
                 'nickname'=>$this->input['nickname'],
+                'sex'=>$this->input['sex'],
                 'mobile'=>$this->input['mobile'],
                 'headpic'=>$this->input['headpic'],
                 'address'=>$this->input['address'],
-                'addtime'=>date("Y-m-d H:i:s"),
+                'addtime'=>time(),
             ];
             $res = $this->table('user')->insert($insertData);
             if($res){
-                $this->_return(1,'添加成功');
+                $this->_return(0,'添加成功');
             }
             $this->_return(-1,'失败');
-            //cs
         }
 
 
         return $this->fetch('member/user/add');
     }
-    public function sortt($data) {
-        if (count ( $data ) <= 1) {
-            return $data;
-        }
-        $tem = $data [0]['addtime'];
-        $leftarray = array ();
-        $rightarray = array ();
-        for($i = 1; $i < count ( $data ); $i ++) {
-            if ($data [$i]['addtime'] >= $tem ) {
-                $leftarray[] = $data[$i];
-            } else {
-                $rightarray[] = $data[$i];
-            }
-        }
-        $leftarray=self::sortt($leftarray);
-        $rightarray=self::sortt($rightarray);
-        $sortarray = array_merge ( $leftarray, array ($data[0]), $rightarray );
-        return $sortarray;
+
+    /**
+     * 删除用户
+     */
+    public function user_del(){
+
+    $return = $this->doDel(TBS::USER,['status'=>SiteConst::YES_VALUE]);
+    $this->ajaxMsg($return);
+
     }
 
 

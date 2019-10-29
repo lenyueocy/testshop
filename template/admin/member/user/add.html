@@ -2,18 +2,28 @@
 {block name="main"}
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin my-layout-admin">
-    {:$html->formBegin()}
+    <form class="layui-form layui-form-pane" onsubmit="return false;" layui-filter="editForm">
     <div class="layui-body" style="top: 0;">
         <div class="layui-tab">
             <ul class="layui-tab-title">
                 <li class="layui-this">添加用户</li>
             </ul>
+            {if condition="isset($user)"}
+            <input type="hidden" name="id" value="{$user.id}">
+            {/if}
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
                     <div class="layui-form-item">
                         <label class="layui-form-label">昵称</label>
                         <div class="layui-input-block">
                             <input lay-verify="required|text" name="nickname" placeholder="请输入昵称" class="layui-input" value="">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">性别</label>
+                        <div class="layui-input-block">
+                            <input type="radio" name="sex" value=1 title="男" checked>
+                            <input type="radio" name="sex" value=2 title="女" >
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -31,7 +41,6 @@
                             </button>
                         </div>
                     </div>
-
                     <div class="layui-form-item">
                         <label class="layui-form-label">地址</label>
                         <div class="layui-input-block">
@@ -44,7 +53,16 @@
             </div>
         </div>
     </div>
-    {:$html->formEnd(url($ctrl."/".$action."_add"))}
+        <div class="layui-footer">
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="editForm" >立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
 </div>
 </body>
 
@@ -61,6 +79,27 @@
             ,error: function(){
                 layer.msg("上传图片出现错误");
             }
+        })
+    })
+
+    layui.use(['form'],function () {
+        var form = layui.form;
+        form.on('submit(editForm)', function(data){
+            $.ajax({
+                url: "{:url('member/user_add')}",
+                type: 'post',
+                dataType: 'json',
+                data: data.field,
+                success:(res)=>{
+                    if(res.code==0){
+                        layer.msg(res.msg)
+                        setTimeout(()=>{window.parent.location.reload()},500)
+                    }
+                },
+                error:(res)=>{
+                    layer.msg('请求错误',()=>{})
+                }
+            })
         })
     })
 </script>

@@ -35,31 +35,6 @@
 <script>
 window.recall = function(){
     //监听提交
-    /*form.on('submit(form-search)', function(data) {
-        var field = data.field;
-        var searchWhere = {};
-        if (field.categoryid>0) {
-            searchWhere['a.cate_id'] = field.cate_id;
-        }
-        if (field.keyword) {
-        	searchWhere['a.goodsno|a.goods_name'] = ['like', '%' + field.keyword + '%'];
-        }
-        adminTable.search(searchWhere);
-        return false;
-        
-        var where = tableList.config.getWhere();
-
-        if(field.category){
-        	where['a.id'] = ['in',field.category];
-        }
-        
-        if (field.keyword) {
-            where['a.goodsno|a.title'] = ['like', '%' + field.keyword + '%'];
-        }
-        tableList.config.where = where;
-        tableList.search();
-        return false;
-    });*/
     
     tools.table({
         jsonUrl: "{:url($ctrl.'/'.$action.'_list')}",
